@@ -1,0 +1,36 @@
+# 环境变量
+.env
+
+# 虚拟环境
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# 数据库
+*.db
+*.db-shm
+*.db-wal
+
+# 缓存数据
+data/cache/*
+!data/cache/.gitkeep
+
+# 备份
+data/backups/*
+!data/backups/.gitkeep
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store

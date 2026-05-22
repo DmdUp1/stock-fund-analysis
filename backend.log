@@ -1,0 +1,22 @@
+INFO:     Will watch for changes in these directories: ['E:\\大项目\\股票基金分析\\backend']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [268052] using WatchFiles
+INFO:     Started server process [265516]
+INFO:     Waiting for application startup.
+2026-05-22 10:34:37 | INFO     | financial_analyzer | 金融分析平台 启动中...
+2026-05-22 10:34:37,383 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-22 10:34:37,383 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("stock_cache")
+2026-05-22 10:34:37,383 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-05-22 10:34:37,385 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("portfolio")
+2026-05-22 10:34:37,385 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-05-22 10:34:37,385 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("transactions")
+2026-05-22 10:34:37,386 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-05-22 10:34:37,386 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("analysis_records")
+2026-05-22 10:34:37,386 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-05-22 10:34:37,388 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("backup_records")
+2026-05-22 10:34:37,388 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-05-22 10:34:37,388 INFO sqlalchemy.engine.Engine COMMIT
+2026-05-22 10:34:37 | INFO     | financial_analyzer | [main] 数据库表已就绪
+2026-05-22 10:34:37 | INFO     | financial_analyzer | [main] 定时任务已启动（分析: 18:30，备份: 23:00）
+INFO:     Application startup complete.
+INFO:     127.0.0.1:59231 - "GET /api/health HTTP/1.1" 200 OK
