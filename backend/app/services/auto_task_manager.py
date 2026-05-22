@@ -9,6 +9,7 @@ from app.utils.config import settings
 from app.utils.logger import logger
 from app.db import crud
 from app.db.database import async_session_factory
+from app.utils.timezone import beijing_now, beijing_today, beijing_from_timestamp
 
 
 async def run_daily_analysis():
@@ -35,7 +36,7 @@ async def backup_database():
         return
 
     settings.BACKUP_DIR.mkdir(parents=True, exist_ok=True)
-    today = datetime.date.today().isoformat()
+    today = beijing_today().isoformat()
     backup_path = settings.BACKUP_DIR / f"financial_analyzer_{today}.db"
 
     try:
@@ -54,10 +55,10 @@ async def backup_database():
 
 def _cleanup_old_backups():
     """清理超过 retention 天的旧备份文件"""
-    cutoff = datetime.datetime.now() - datetime.timedelta(days=settings.BACKUP_RETENTION_DAYS)
+    cutoff = beijing_now() - datetime.timedelta(days=settings.BACKUP_RETENTION_DAYS)
     for f in settings.BACKUP_DIR.glob("financial_analyzer_*.db"):
         try:
-            mtime = datetime.datetime.fromtimestamp(f.stat().st_mtime)
+            mtime = beijing_from_timestamp(f.stat().st_mtime)
             if mtime < cutoff:
                 f.unlink()
                 logger.info(f"[backup] 清理旧备份: {f.name}")

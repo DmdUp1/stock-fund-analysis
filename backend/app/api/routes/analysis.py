@@ -17,6 +17,7 @@ from app.db.database import async_session_factory
 from app.db import crud
 from app.utils.config import settings
 from app.utils.logger import logger
+from app.utils.timezone import beijing_now, beijing_today
 
 router = APIRouter(prefix="/api/analysis", tags=["analysis"])
 
@@ -30,20 +31,21 @@ async def analyze_asset(
     name: str = Query(default="", description="名称"),
     cost_price: float = Query(default=0, description="持仓成本价"),
     shares: float = Query(default=0, description="持仓数量"),
+    holding_days: int = Query(default=0, description="实际持仓天数"),
     _=Depends(verify_api_key),
 ):
     """对单只股票或基金进行全维度分析"""
     if not end:
-        end = datetime.date.today().isoformat()
+        end = beijing_today().isoformat()
     if not start:
-        start = (datetime.date.today() - datetime.timedelta(days=365)).isoformat()
+        start = (beijing_today() - datetime.timedelta(days=365)).isoformat()
 
     logger.info(f"[analysis] 开始分析 [{asset_type}] {code} ({name}), 区间 {start} ~ {end}")
 
     if asset_type == "fund":
-        return await _analyze_fund(code, name, start, end, cost_price, shares)
+        return await _analyze_fund(code, name, start, end, cost_price, shares, holding_days)
     else:
-        return await _analyze_stock(code, name, start, end, cost_price, shares)
+        return await _analyze_stock(code, name, start, end, cost_price, shares, holding_days)
 
 
 @router.get("/lookup/{code}")
@@ -65,7 +67,7 @@ async def lookup_asset_name(
     return {"code": code, "name": ""}
 
 
-async def _analyze_stock(code: str, name: str, start: str, end: str, cost_price: float = 0, shares: float = 0) -> AnalysisResult:
+async def _analyze_stock(code: str, name: str, start: str, end: str, cost_price: float = 0, shares: float = 0, holding_days: int = 0) -> AnalysisResult:
     """股票分析流程（腾讯财经优先）"""
     # 并行启动：基本面 + 新闻
     fund_task = asyncio.create_task(get_fundamentals(code, akshare_adapter.fetch_stock_fundamentals, asset_type="stock"))
@@ -107,6 +109,7 @@ async def _analyze_stock(code: str, name: str, start: str, end: str, cost_price:
     sentiment = await analyze_sentiment(news)
 
     # 5. 组装 + AI
+    tech["holding_days"] = holding_days or tech.get("holding_days", 0)
     multi = MultiDimAnalysis(
         code=code, name=name, asset_type="stock",
         market_data=market_data,
@@ -120,7 +123,7 @@ async def _analyze_stock(code: str, name: str, start: str, end: str, cost_price:
     result = AnalysisResult(
         code=code, name=name, asset_type="stock",
         market_data=market_data,
-        ai_report=ai_report, generated_at=datetime.datetime.now().isoformat(),
+        ai_report=ai_report, generated_at=beijing_now().isoformat(),
     )
 
     # 保存到仓库
@@ -128,7 +131,7 @@ async def _analyze_stock(code: str, name: str, start: str, end: str, cost_price:
     return result
 
 
-async def _analyze_fund(code: str, name: str, start: str, end: str, cost_price: float = 0, shares: float = 0) -> AnalysisResult:
+async def _analyze_fund(code: str, name: str, start: str, end: str, cost_price: float = 0, shares: float = 0, holding_days: int = 0) -> AnalysisResult:
     """基金分析流程（腾讯财经优先）"""
     # 并行启动：基金档案 + 新闻
     fund_info_task = asyncio.create_task(get_fundamentals(code, akshare_adapter.fetch_fund_info, asset_type="fund"))
@@ -166,6 +169,7 @@ async def _analyze_fund(code: str, name: str, start: str, end: str, cost_price: 
     # 4. 新闻 & 情感
     sentiment = await analyze_sentiment(news)
 
+    tech["holding_days"] = holding_days or tech.get("holding_days", 0)
     multi = MultiDimAnalysis(
         code=code, name=name, asset_type="fund",
         market_data=market_data,
@@ -179,7 +183,7 @@ async def _analyze_fund(code: str, name: str, start: str, end: str, cost_price: 
     result = AnalysisResult(
         code=code, name=name, asset_type="fund",
         market_data=market_data,
-        ai_report=ai_report, generated_at=datetime.datetime.now().isoformat(),
+        ai_report=ai_report, generated_at=beijing_now().isoformat(),
     )
 
     # 保存到仓库

@@ -26,12 +26,13 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
 
 export const api = {
   // Analysis
-  analyzeAsset(code: string, assetType = 'stock', name = '', start = '', end = '', costPrice = 0, shares = 0) {
+  analyzeAsset(code: string, assetType = 'stock', name = '', start = '', end = '', costPrice = 0, shares = 0, holdingDays = 0) {
     const params = new URLSearchParams({ asset_type: assetType, name })
     if (start) params.set('start', start)
     if (end) params.set('end', end)
     if (costPrice > 0) params.set('cost_price', String(costPrice))
     if (shares > 0) params.set('shares', String(shares))
+    if (holdingDays > 0) params.set('holding_days', String(holdingDays))
     return request<AnalysisResult>(`/analysis/${code}?${params}`)
   },
 

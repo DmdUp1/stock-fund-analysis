@@ -1,22 +1,1311 @@
 INFO:     Will watch for changes in these directories: ['E:\\大项目\\股票基金分析\\backend']
 INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-INFO:     Started reloader process [268052] using WatchFiles
-INFO:     Started server process [265516]
+INFO:     Started reloader process [66916] using WatchFiles
+INFO:     Started server process [64468]
 INFO:     Waiting for application startup.
-2026-05-22 10:34:37 | INFO     | financial_analyzer | 金融分析平台 启动中...
-2026-05-22 10:34:37,383 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-2026-05-22 10:34:37,383 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("stock_cache")
-2026-05-22 10:34:37,383 INFO sqlalchemy.engine.Engine [raw sql] ()
-2026-05-22 10:34:37,385 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("portfolio")
-2026-05-22 10:34:37,385 INFO sqlalchemy.engine.Engine [raw sql] ()
-2026-05-22 10:34:37,385 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("transactions")
-2026-05-22 10:34:37,386 INFO sqlalchemy.engine.Engine [raw sql] ()
-2026-05-22 10:34:37,386 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("analysis_records")
-2026-05-22 10:34:37,386 INFO sqlalchemy.engine.Engine [raw sql] ()
-2026-05-22 10:34:37,388 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("backup_records")
-2026-05-22 10:34:37,388 INFO sqlalchemy.engine.Engine [raw sql] ()
-2026-05-22 10:34:37,388 INFO sqlalchemy.engine.Engine COMMIT
-2026-05-22 10:34:37 | INFO     | financial_analyzer | [main] 数据库表已就绪
-2026-05-22 10:34:37 | INFO     | financial_analyzer | [main] 定时任务已启动（分析: 18:30，备份: 23:00）
+2026-05-23 00:39:17 | INFO     | financial_analyzer | 金融分析平台 启动中...
+2026-05-23 00:39:17,159 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:39:17,159 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("stock_cache")
+2026-05-23 00:39:17,159 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-05-23 00:39:17,159 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("portfolio")
+2026-05-23 00:39:17,159 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-05-23 00:39:17,159 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("transactions")
+2026-05-23 00:39:17,159 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-05-23 00:39:17,159 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("analysis_records")
+2026-05-23 00:39:17,159 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-05-23 00:39:17,159 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("backup_records")
+2026-05-23 00:39:17,159 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-05-23 00:39:17,159 INFO sqlalchemy.engine.Engine COMMIT
+2026-05-23 00:39:17 | INFO     | financial_analyzer | [main] 数据库表已就绪
+2026-05-23 00:39:17 | INFO     | financial_analyzer | [main] 定时任务已启动（分析: 18:30，备份: 23:00）
 INFO:     Application startup complete.
-INFO:     127.0.0.1:59231 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56210 - "GET /api/health HTTP/1.1" 200 OK
+2026-05-23 00:42:27,465 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:27,469 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:27,469 INFO sqlalchemy.engine.Engine [generated in 0.00026s] ('AUTO', 1, 0)
+2026-05-23 00:42:27,472 INFO sqlalchemy.engine.Engine SELECT backup_records.id, backup_records.file_path, backup_records.file_size_bytes, backup_records.created_at 
+FROM backup_records ORDER BY backup_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:27,472 INFO sqlalchemy.engine.Engine [generated in 0.00026s] (1, 0)
+2026-05-23 00:42:27,474 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50425 - "GET /api/auto/status HTTP/1.1" 200 OK
+2026-05-23 00:42:29,311 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:29,312 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:29,312 INFO sqlalchemy.engine.Engine [cached since 1.843s ago] ('AUTO', 1, 0)
+2026-05-23 00:42:29,314 INFO sqlalchemy.engine.Engine SELECT backup_records.id, backup_records.file_path, backup_records.file_size_bytes, backup_records.created_at 
+FROM backup_records ORDER BY backup_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:29,314 INFO sqlalchemy.engine.Engine [cached since 1.841s ago] (1, 0)
+2026-05-23 00:42:29,315 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50429 - "GET /api/auto/status HTTP/1.1" 200 OK
+2026-05-23 00:42:30,195 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:30,195 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:42:30,195 INFO sqlalchemy.engine.Engine [generated in 0.00020s] ()
+2026-05-23 00:42:30,195 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:30 | INFO     | financial_analyzer | [data_hub] 文件缓存命中: 78e5138e8fd086fd2c3aa13782728f08.pkl
+2026-05-23 00:42:30 | INFO     | financial_analyzer | [data_hub] 文件缓存命中: 0ac066e9ab0e21d30c5bb37e144c6149.pkl
+2026-05-23 00:42:30,206 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:30,206 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:42:30,206 INFO sqlalchemy.engine.Engine [cached since 0.008831s ago] ()
+2026-05-23 00:42:30,208 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:30,210 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:30,210 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:30,210 INFO sqlalchemy.engine.Engine [generated in 0.00016s] ('021789', 'fund', 1, 0)
+2026-05-23 00:42:30,214 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:30,214 INFO sqlalchemy.engine.Engine [cached since 0.00349s ago] ('110011', 'fund', 1, 0)
+2026-05-23 00:42:30,217 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:30,218 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:30,290 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:42:30,290 INFO sqlalchemy.engine.Engine [generated in 0.00031s] (1,)
+2026-05-23 00:42:30,290 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:30,290 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:30,290 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:42:30,290 INFO sqlalchemy.engine.Engine [cached since 0.002526s ago] (2,)
+2026-05-23 00:42:30,290 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50431 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:42:31,169 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:31,169 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:42:31,169 INFO sqlalchemy.engine.Engine [cached since 0.9722s ago] ()
+2026-05-23 00:42:31,171 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:31 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 021789
+2026-05-23 00:42:31 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 110011
+2026-05-23 00:42:31,171 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:31,171 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:42:31,171 INFO sqlalchemy.engine.Engine [cached since 0.9746s ago] ()
+2026-05-23 00:42:31,171 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:31,171 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:31,171 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:31,171 INFO sqlalchemy.engine.Engine [cached since 0.9633s ago] ('021789', 'fund', 1, 0)
+2026-05-23 00:42:31,175 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:31,175 INFO sqlalchemy.engine.Engine [cached since 0.9646s ago] ('110011', 'fund', 1, 0)
+2026-05-23 00:42:31,176 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:31,176 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:31,176 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:42:31,176 INFO sqlalchemy.engine.Engine [cached since 0.8861s ago] (1,)
+2026-05-23 00:42:31,178 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:31,178 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:31,179 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:42:31,179 INFO sqlalchemy.engine.Engine [cached since 0.8875s ago] (2,)
+2026-05-23 00:42:31,179 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50433 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:42:31,185 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:31,185 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:42:31,185 INFO sqlalchemy.engine.Engine [cached since 0.8948s ago] (1,)
+2026-05-23 00:42:31,185 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:31,185 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:31,185 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:42:31,185 INFO sqlalchemy.engine.Engine [cached since 0.8968s ago] (2,)
+INFO:     127.0.0.1:50436 - "GET /api/portfolio/1/transactions HTTP/1.1" 200 OK
+2026-05-23 00:42:31,185 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50437 - "GET /api/portfolio/2/transactions HTTP/1.1" 200 OK
+2026-05-23 00:42:45,245 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:45,245 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio 
+WHERE portfolio.id = ?
+2026-05-23 00:42:45,245 INFO sqlalchemy.engine.Engine [generated in 0.00014s] (2,)
+2026-05-23 00:42:45,247 INFO sqlalchemy.engine.Engine DELETE FROM transactions WHERE transactions.portfolio_id = ?
+2026-05-23 00:42:45,247 INFO sqlalchemy.engine.Engine [generated in 0.00016s] (2,)
+2026-05-23 00:42:45,250 INFO sqlalchemy.engine.Engine COMMIT
+2026-05-23 00:42:45,254 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:45,254 INFO sqlalchemy.engine.Engine DELETE FROM analysis_records WHERE analysis_records.code = ? AND analysis_records.asset_type = ?
+2026-05-23 00:42:45,254 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ('110011', 'fund')
+2026-05-23 00:42:45,256 INFO sqlalchemy.engine.Engine COMMIT
+2026-05-23 00:42:45,256 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:45,256 INFO sqlalchemy.engine.Engine DELETE FROM portfolio WHERE portfolio.id = ?
+2026-05-23 00:42:45,256 INFO sqlalchemy.engine.Engine [generated in 0.00009s] (2,)
+2026-05-23 00:42:45,261 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:50446 - "DELETE /api/portfolio/2 HTTP/1.1" 200 OK
+2026-05-23 00:42:45,270 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:45,271 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:42:45,271 INFO sqlalchemy.engine.Engine [cached since 15.07s ago] ()
+2026-05-23 00:42:45,271 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:45 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 021789
+2026-05-23 00:42:45,272 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:45,272 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:42:45,272 INFO sqlalchemy.engine.Engine [cached since 15.08s ago] ()
+2026-05-23 00:42:45,272 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:45,272 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:45,272 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:45,272 INFO sqlalchemy.engine.Engine [cached since 15.06s ago] ('021789', 'fund', 1, 0)
+2026-05-23 00:42:45,276 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:45,276 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:45,276 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:42:45,276 INFO sqlalchemy.engine.Engine [cached since 14.99s ago] (1,)
+2026-05-23 00:42:45,276 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50448 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:42:45,282 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:45,282 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:42:45,282 INFO sqlalchemy.engine.Engine [cached since 14.99s ago] (1,)
+2026-05-23 00:42:45,282 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50450 - "GET /api/portfolio/1/transactions HTTP/1.1" 200 OK
+2026-05-23 00:42:51,534 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:51,534 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:51,534 INFO sqlalchemy.engine.Engine [generated in 0.00012s] ('021789', 'fund', 1, 0)
+2026-05-23 00:42:51,536 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50452 - "GET /api/warehouse/by-code/021789?asset_type=fund HTTP/1.1" 200 OK
+2026-05-23 00:42:55,870 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:55,871 INFO sqlalchemy.engine.Engine SELECT analysis_records.code, analysis_records.asset_type, count(analysis_records.id) AS record_count, max(analysis_records.created_at) AS latest_time 
+FROM analysis_records GROUP BY analysis_records.code, analysis_records.asset_type ORDER BY max(analysis_records.created_at) DESC
+2026-05-23 00:42:55,871 INFO sqlalchemy.engine.Engine [generated in 0.00015s] ()
+2026-05-23 00:42:55,872 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:55,872 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:42:55,872 INFO sqlalchemy.engine.Engine [cached since 25.68s ago] ()
+2026-05-23 00:42:55,874 INFO sqlalchemy.engine.Engine SELECT analysis_records.summary 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:55,874 INFO sqlalchemy.engine.Engine [generated in 0.00018s] ('021789', 'fund', 1, 0)
+2026-05-23 00:42:55,875 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:55 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 021789
+2026-05-23 00:42:55,876 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:55,876 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:42:55,876 INFO sqlalchemy.engine.Engine [cached since 25.68s ago] ()
+2026-05-23 00:42:55,877 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio 
+WHERE portfolio.code = ? AND portfolio.asset_type = ?
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:55,877 INFO sqlalchemy.engine.Engine [generated in 0.00015s] ('021789', 'fund', 1, 0)
+2026-05-23 00:42:55,878 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:55,878 INFO sqlalchemy.engine.Engine [cached since 25.67s ago] ('021789', 'fund', 1, 0)
+2026-05-23 00:42:55,878 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:55,879 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:55,880 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:55,880 INFO sqlalchemy.engine.Engine [cached since 25.67s ago] ('021789', 'fund', 1, 0)
+2026-05-23 00:42:55,880 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50457 - "GET /api/warehouse/groups HTTP/1.1" 200 OK
+2026-05-23 00:42:55,880 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:55,880 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:55,880 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:42:55,880 INFO sqlalchemy.engine.Engine [cached since 25.59s ago] (1,)
+2026-05-23 00:42:55,880 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50458 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:42:56,667 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:56,668 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+2026-05-23 00:42:56,668 INFO sqlalchemy.engine.Engine [generated in 0.00016s] ('021789', 'fund')
+2026-05-23 00:42:56,668 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50460 - "GET /api/warehouse/by-code/021789/all?asset_type=fund HTTP/1.1" 200 OK
+2026-05-23 00:42:57,770 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:57,770 INFO sqlalchemy.engine.Engine SELECT analysis_records.code, analysis_records.asset_type, count(analysis_records.id) AS record_count, max(analysis_records.created_at) AS latest_time 
+FROM analysis_records GROUP BY analysis_records.code, analysis_records.asset_type ORDER BY max(analysis_records.created_at) DESC
+2026-05-23 00:42:57,770 INFO sqlalchemy.engine.Engine [cached since 1.899s ago] ()
+2026-05-23 00:42:57,770 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:57,772 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:42:57,772 INFO sqlalchemy.engine.Engine [cached since 27.57s ago] ()
+2026-05-23 00:42:57,773 INFO sqlalchemy.engine.Engine SELECT analysis_records.summary 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:57,773 INFO sqlalchemy.engine.Engine [cached since 1.898s ago] ('021789', 'fund', 1, 0)
+2026-05-23 00:42:57,773 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:57 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 021789
+2026-05-23 00:42:57,774 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:57,774 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:42:57,774 INFO sqlalchemy.engine.Engine [cached since 27.58s ago] ()
+2026-05-23 00:42:57,774 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio 
+WHERE portfolio.code = ? AND portfolio.asset_type = ?
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:57,774 INFO sqlalchemy.engine.Engine [cached since 1.897s ago] ('021789', 'fund', 1, 0)
+2026-05-23 00:42:57,775 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:57,775 INFO sqlalchemy.engine.Engine [cached since 27.56s ago] ('021789', 'fund', 1, 0)
+2026-05-23 00:42:57,775 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:57,775 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:57,775 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:57,775 INFO sqlalchemy.engine.Engine [cached since 27.57s ago] ('021789', 'fund', 1, 0)
+2026-05-23 00:42:57,775 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50463 - "GET /api/warehouse/groups HTTP/1.1" 200 OK
+2026-05-23 00:42:57,779 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:57,779 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:57,779 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:42:57,779 INFO sqlalchemy.engine.Engine [cached since 27.49s ago] (1,)
+2026-05-23 00:42:57,781 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50464 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:42:59,524 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:59,525 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:42:59,525 INFO sqlalchemy.engine.Engine [cached since 29.33s ago] ()
+2026-05-23 00:42:59,526 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:59 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 021789
+2026-05-23 00:42:59,527 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:59,527 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:42:59,527 INFO sqlalchemy.engine.Engine [cached since 29.33s ago] ()
+2026-05-23 00:42:59,528 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:59,528 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:59,528 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:42:59,529 INFO sqlalchemy.engine.Engine [cached since 29.32s ago] ('021789', 'fund', 1, 0)
+2026-05-23 00:42:59,529 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:42:59,530 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:59,530 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:42:59,530 INFO sqlalchemy.engine.Engine [cached since 29.24s ago] (1,)
+2026-05-23 00:42:59,531 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50468 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:42:59,537 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:42:59,537 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:42:59,537 INFO sqlalchemy.engine.Engine [cached since 29.25s ago] (1,)
+2026-05-23 00:42:59,538 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50470 - "GET /api/portfolio/1/transactions HTTP/1.1" 200 OK
+2026-05-23 00:43:01,275 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:43:01,275 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:43:01,275 INFO sqlalchemy.engine.Engine [cached since 9.745s ago] ('021789', 'fund', 1, 0)
+2026-05-23 00:43:01,280 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50473 - "GET /api/warehouse/by-code/021789?asset_type=fund HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50481 - "GET /api/analysis/lookup/00?asset_type=fund HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50484 - "GET /api/analysis/lookup/007028?asset_type=fund HTTP/1.1" 200 OK
+2026-05-23 00:44:27,584 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:44:27,584 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio 
+WHERE portfolio.code = ? AND portfolio.asset_type = ?
+2026-05-23 00:44:27,584 INFO sqlalchemy.engine.Engine [generated in 0.00021s] ('007028', 'fund')
+2026-05-23 00:44:27,588 INFO sqlalchemy.engine.Engine INSERT INTO portfolio (code, name, asset_type, shares, cost_price, total_fees, added_at) VALUES (?, ?, ?, ?, ?, ?, ?)
+2026-05-23 00:44:27,589 INFO sqlalchemy.engine.Engine [generated in 0.00067s] ('007028', '易方达中证500ETF联接发起式A', 'fund', 0.0, 0.0, 0.0, '2026-05-22 16:44:27.584287')
+2026-05-23 00:44:27,589 INFO sqlalchemy.engine.Engine COMMIT
+2026-05-23 00:44:27,593 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:44:27,594 INFO sqlalchemy.engine.Engine INSERT INTO transactions (portfolio_id, code, name, asset_type, tx_type, shares, price, amount, fee, tx_date, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-05-23 00:44:27,594 INFO sqlalchemy.engine.Engine [generated in 0.00020s] (2, '007028', '易方达中证500ETF联接发起式A', 'fund', 'buy', 52.36, 2.1008, 109.9979, 0.05, '2026-05-12', '2026-05-22 16:44:27.594307')
+2026-05-23 00:44:27,595 INFO sqlalchemy.engine.Engine COMMIT
+2026-05-23 00:44:27,600 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:44:27,600 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ?
+2026-05-23 00:44:27,600 INFO sqlalchemy.engine.Engine [generated in 0.00015s] (2,)
+2026-05-23 00:44:27,602 INFO sqlalchemy.engine.Engine UPDATE portfolio SET shares=?, cost_price=?, total_fees=? WHERE portfolio.id = ?
+2026-05-23 00:44:27,602 INFO sqlalchemy.engine.Engine [generated in 0.00014s] (52.36, 2.1008, 0.05, 2)
+2026-05-23 00:44:27,604 INFO sqlalchemy.engine.Engine COMMIT
+2026-05-23 00:44:27 | INFO     | financial_analyzer | [transactions] 新增交易 buy 007028 52.36@2.1008
+INFO:     127.0.0.1:50493 - "POST /api/portfolio/transaction HTTP/1.1" 200 OK
+2026-05-23 00:44:27,618 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:44:27,618 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:44:27,619 INFO sqlalchemy.engine.Engine [cached since 117.4s ago] ()
+2026-05-23 00:44:27,619 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:44:27 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 021789
+2026-05-23 00:44:27 | INFO     | financial_analyzer | [data_hub] 从数据源获取 [fund]: 007028
+2026-05-23 00:44:27 | INFO     | financial_analyzer | [data_hub] 从数据源获取 [fund]: 007028
+2026-05-23 00:44:28 | ERROR    | financial_analyzer | [akshare] 获取ETF行情失败 007028: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-05-23 00:44:28 | INFO     | financial_analyzer | [data_hub] 从数据源获取 [fund]: 007028
+2026-05-23 00:44:29 | INFO     | financial_analyzer | [data_hub] 写入文件缓存: c21fde3b2cbc4983e104a3706779ba1f.pkl
+2026-05-23 00:44:29,572 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:44:29,572 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:44:29,572 INFO sqlalchemy.engine.Engine [cached since 119.4s ago] ()
+2026-05-23 00:44:29,573 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:44:29,573 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:44:29,573 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:44:29,574 INFO sqlalchemy.engine.Engine [cached since 119.4s ago] ('021789', 'fund', 1, 0)
+2026-05-23 00:44:29,575 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:44:29,575 INFO sqlalchemy.engine.Engine [cached since 119.4s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:44:29,575 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:44:29,576 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:44:29,576 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:44:29,577 INFO sqlalchemy.engine.Engine [cached since 119.3s ago] (1,)
+2026-05-23 00:44:29,577 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:44:29,578 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:44:29,578 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:44:29,578 INFO sqlalchemy.engine.Engine [cached since 119.3s ago] (2,)
+2026-05-23 00:44:29,578 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50495 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:44:29,586 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:44:29,586 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:44:29,586 INFO sqlalchemy.engine.Engine [cached since 119.3s ago] (1,)
+2026-05-23 00:44:29,586 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:44:29,586 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:44:29,587 INFO sqlalchemy.engine.Engine [cached since 119.3s ago] (2,)
+2026-05-23 00:44:29,587 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:44:29,588 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50501 - "GET /api/portfolio/1/transactions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50502 - "GET /api/portfolio/2/transactions HTTP/1.1" 200 OK
+2026-05-23 00:45:08,013 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:45:08,014 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:45:08,014 INFO sqlalchemy.engine.Engine [cached since 136.5s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:45:08,014 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50513 - "GET /api/warehouse/by-code/007028?asset_type=fund HTTP/1.1" 200 OK
+2026-05-23 00:45:08 | INFO     | financial_analyzer | [analysis] 开始分析 [fund] 007028 (易方达中证500ETF联接发起式A), 区间 2025-05-23 ~ 2026-05-23
+2026-05-23 00:45:08 | INFO     | financial_analyzer | [data_hub] 从数据源获取 [fund]: 007028
+2026-05-23 00:45:08 | INFO     | financial_analyzer | [analysis] 基金 007028 腾讯无净值，尝试 akshare ETF
+2026-05-23 00:45:08 | INFO     | financial_analyzer | [data_hub] 从数据源获取 [fund]: 007028
+2026-05-23 00:45:08 | WARNING  | financial_analyzer | [akshare] ETF 007028 无行情数据
+2026-05-23 00:45:08 | INFO     | financial_analyzer | [data_hub] 从数据源获取 [fund]: 007028
+2026-05-23 00:45:08 | INFO     | financial_analyzer | [data_hub] 写入文件缓存: d74e427a12b0e22bcb24b889a76897fa.pkl
+2026-05-23 00:45:19,999 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:45:20,002 INFO sqlalchemy.engine.Engine INSERT INTO analysis_records (code, asset_type, summary, detail_json, created_at) VALUES (?, ?, ?, ?, ?)
+2026-05-23 00:45:20,002 INFO sqlalchemy.engine.Engine [generated in 0.00013s] ('007028', 'fund', '当前净值2.0327，处于近一年中位数附近，低于持仓成本，短线承压，但中长期估值合理。', '{"code":"007028","name":"易方达中证500ETF联接发起式A","asset_type":"fund","ai_report":{"code":"007028","name":"易方达中证500ETF联接发起式A","asset_type":"fund","summary" ... (26573 characters truncated) ... ate":"2026-05-22","open":2.0327,"close":2.0327,"high":2.0327,"low":2.0327,"volume":0.0,"code":"007028"}],"generated_at":"2026-05-23T00:45:19.999102"}', '2026-05-22 16:45:20.002966')
+2026-05-23 00:45:20,004 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:50515 - "GET /api/analysis/007028?asset_type=fund&name=%E6%98%93%E6%96%B9%E8%BE%BE%E4%B8%AD%E8%AF%81500ETF%E8%81%94%E6%8E%A5%E5%8F%91%E8%B5%B7%E5%BC%8FA&cost_price=2.1008&shares=52.36 HTTP/1.1" 200 OK
+2026-05-23 00:46:23,917 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:23,918 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio 
+WHERE portfolio.id = ?
+2026-05-23 00:46:23,918 INFO sqlalchemy.engine.Engine [cached since 218.7s ago] (1,)
+2026-05-23 00:46:23,919 INFO sqlalchemy.engine.Engine DELETE FROM transactions WHERE transactions.portfolio_id = ?
+2026-05-23 00:46:23,919 INFO sqlalchemy.engine.Engine [cached since 218.7s ago] (1,)
+2026-05-23 00:46:23,920 INFO sqlalchemy.engine.Engine COMMIT
+2026-05-23 00:46:23,924 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:23,924 INFO sqlalchemy.engine.Engine DELETE FROM analysis_records WHERE analysis_records.code = ? AND analysis_records.asset_type = ?
+2026-05-23 00:46:23,924 INFO sqlalchemy.engine.Engine [cached since 218.7s ago] ('021789', 'fund')
+2026-05-23 00:46:23,925 INFO sqlalchemy.engine.Engine COMMIT
+2026-05-23 00:46:23,928 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:23,928 INFO sqlalchemy.engine.Engine DELETE FROM portfolio WHERE portfolio.id = ?
+2026-05-23 00:46:23,928 INFO sqlalchemy.engine.Engine [cached since 218.7s ago] (1,)
+2026-05-23 00:46:23,928 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:50536 - "DELETE /api/portfolio/1 HTTP/1.1" 200 OK
+2026-05-23 00:46:23,938 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:23,938 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:23,938 INFO sqlalchemy.engine.Engine [cached since 233.7s ago] ()
+2026-05-23 00:46:23,938 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:23 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:46:23,938 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:23,938 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:23,938 INFO sqlalchemy.engine.Engine [cached since 233.7s ago] ()
+2026-05-23 00:46:23,942 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:23,942 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:23,943 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:23,943 INFO sqlalchemy.engine.Engine [cached since 233.7s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:23,943 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:23,943 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:23,943 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:46:23,943 INFO sqlalchemy.engine.Engine [cached since 233.7s ago] (2,)
+2026-05-23 00:46:23,943 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50538 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:46:23,952 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:23,952 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:46:23,952 INFO sqlalchemy.engine.Engine [cached since 233.7s ago] (2,)
+2026-05-23 00:46:23,953 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50540 - "GET /api/portfolio/2/transactions HTTP/1.1" 200 OK
+2026-05-23 00:46:25,639 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:25,639 INFO sqlalchemy.engine.Engine SELECT analysis_records.code, analysis_records.asset_type, count(analysis_records.id) AS record_count, max(analysis_records.created_at) AS latest_time 
+FROM analysis_records GROUP BY analysis_records.code, analysis_records.asset_type ORDER BY max(analysis_records.created_at) DESC
+2026-05-23 00:46:25,639 INFO sqlalchemy.engine.Engine [cached since 209.8s ago] ()
+2026-05-23 00:46:25,639 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:25,641 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:25,641 INFO sqlalchemy.engine.Engine [cached since 235.4s ago] ()
+2026-05-23 00:46:25,642 INFO sqlalchemy.engine.Engine SELECT analysis_records.summary 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:25,642 INFO sqlalchemy.engine.Engine [cached since 209.8s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:25,642 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:25 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:46:25,651 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:25,651 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:25,651 INFO sqlalchemy.engine.Engine [cached since 235.5s ago] ()
+2026-05-23 00:46:25,651 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio 
+WHERE portfolio.code = ? AND portfolio.asset_type = ?
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:25,651 INFO sqlalchemy.engine.Engine [cached since 209.8s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:25,651 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:25,651 INFO sqlalchemy.engine.Engine [cached since 235.4s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:25,651 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:25,651 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:25,651 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:25,651 INFO sqlalchemy.engine.Engine [cached since 235.4s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:25,651 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50543 - "GET /api/warehouse/groups HTTP/1.1" 200 OK
+2026-05-23 00:46:25,657 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:25,657 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:25,657 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:46:25,657 INFO sqlalchemy.engine.Engine [cached since 235.4s ago] (2,)
+2026-05-23 00:46:25,658 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50544 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:46:26,429 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:26,429 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+2026-05-23 00:46:26,429 INFO sqlalchemy.engine.Engine [cached since 209.8s ago] ('007028', 'fund')
+2026-05-23 00:46:26,429 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50546 - "GET /api/warehouse/by-code/007028/all?asset_type=fund HTTP/1.1" 200 OK
+2026-05-23 00:46:27,618 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:27,618 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.id = ?
+2026-05-23 00:46:27,618 INFO sqlalchemy.engine.Engine [generated in 0.00010s] (3,)
+2026-05-23 00:46:27,621 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50548 - "GET /api/warehouse/3 HTTP/1.1" 200 OK
+2026-05-23 00:46:29,643 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:29,643 INFO sqlalchemy.engine.Engine SELECT analysis_records.code, analysis_records.asset_type, count(analysis_records.id) AS record_count, max(analysis_records.created_at) AS latest_time 
+FROM analysis_records GROUP BY analysis_records.code, analysis_records.asset_type ORDER BY max(analysis_records.created_at) DESC
+2026-05-23 00:46:29,643 INFO sqlalchemy.engine.Engine [cached since 213.8s ago] ()
+2026-05-23 00:46:29,643 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:29,643 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:29,643 INFO sqlalchemy.engine.Engine [cached since 239.4s ago] ()
+2026-05-23 00:46:29,646 INFO sqlalchemy.engine.Engine SELECT analysis_records.summary 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:29,646 INFO sqlalchemy.engine.Engine [cached since 213.8s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:29,647 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:29,647 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio 
+WHERE portfolio.code = ? AND portfolio.asset_type = ?
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:29,647 INFO sqlalchemy.engine.Engine [cached since 213.8s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:29 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:46:29,647 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:29,647 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:29,647 INFO sqlalchemy.engine.Engine [cached since 239.5s ago] ()
+2026-05-23 00:46:29,647 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:29,647 INFO sqlalchemy.engine.Engine [cached since 239.4s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:29,647 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:29,651 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:29,651 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:29,651 INFO sqlalchemy.engine.Engine [cached since 239.4s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:29,651 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50552 - "GET /api/warehouse/groups HTTP/1.1" 200 OK
+2026-05-23 00:46:29,653 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:29,654 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:29,655 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:46:29,655 INFO sqlalchemy.engine.Engine [cached since 239.4s ago] (2,)
+2026-05-23 00:46:29,655 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50553 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:46:30,454 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:30,454 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:30,454 INFO sqlalchemy.engine.Engine [cached since 240.3s ago] ()
+2026-05-23 00:46:30,454 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:30 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:46:30,454 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:30,454 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:30,454 INFO sqlalchemy.engine.Engine [cached since 240.3s ago] ()
+2026-05-23 00:46:30,456 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:30,457 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:30,457 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:30,457 INFO sqlalchemy.engine.Engine [cached since 240.2s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:30,458 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:30,458 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:30,458 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:46:30,458 INFO sqlalchemy.engine.Engine [cached since 240.2s ago] (2,)
+2026-05-23 00:46:30,460 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50555 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:46:30,461 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:30,461 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:46:30,461 INFO sqlalchemy.engine.Engine [cached since 240.2s ago] (2,)
+2026-05-23 00:46:30,466 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50557 - "GET /api/portfolio/2/transactions HTTP/1.1" 200 OK
+2026-05-23 00:46:32,062 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:32,062 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:32,062 INFO sqlalchemy.engine.Engine [cached since 220.5s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:32,064 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50559 - "GET /api/warehouse/by-code/007028?asset_type=fund HTTP/1.1" 200 OK
+2026-05-23 00:46:44,547 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:44,548 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:44,548 INFO sqlalchemy.engine.Engine [cached since 257.1s ago] ('AUTO', 1, 0)
+2026-05-23 00:46:44,549 INFO sqlalchemy.engine.Engine SELECT backup_records.id, backup_records.file_path, backup_records.file_size_bytes, backup_records.created_at 
+FROM backup_records ORDER BY backup_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:44,549 INFO sqlalchemy.engine.Engine [cached since 257.1s ago] (1, 0)
+2026-05-23 00:46:44,550 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50562 - "GET /api/auto/status HTTP/1.1" 200 OK
+2026-05-23 00:46:45,292 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:45,293 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:45,293 INFO sqlalchemy.engine.Engine [cached since 257.8s ago] ('AUTO', 1, 0)
+2026-05-23 00:46:45,294 INFO sqlalchemy.engine.Engine SELECT backup_records.id, backup_records.file_path, backup_records.file_size_bytes, backup_records.created_at 
+FROM backup_records ORDER BY backup_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:45,294 INFO sqlalchemy.engine.Engine [cached since 257.8s ago] (1, 0)
+2026-05-23 00:46:45,295 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50564 - "GET /api/auto/status HTTP/1.1" 200 OK
+2026-05-23 00:46:48,148 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:48,148 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:48,148 INFO sqlalchemy.engine.Engine [cached since 258s ago] ()
+2026-05-23 00:46:48,148 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:48 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:46:48,151 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:48,151 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:48,151 INFO sqlalchemy.engine.Engine [cached since 258s ago] ()
+2026-05-23 00:46:48,152 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:48,152 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:48,152 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:48,152 INFO sqlalchemy.engine.Engine [cached since 257.9s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:48,152 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:48,152 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:48,152 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:46:48,152 INFO sqlalchemy.engine.Engine [cached since 257.9s ago] (2,)
+2026-05-23 00:46:48,152 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50566 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:46:48,799 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:48,800 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:48,800 INFO sqlalchemy.engine.Engine [cached since 261.3s ago] ('AUTO', 1, 0)
+2026-05-23 00:46:48,801 INFO sqlalchemy.engine.Engine SELECT backup_records.id, backup_records.file_path, backup_records.file_size_bytes, backup_records.created_at 
+FROM backup_records ORDER BY backup_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:48,801 INFO sqlalchemy.engine.Engine [cached since 261.3s ago] (1, 0)
+2026-05-23 00:46:48,802 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50568 - "GET /api/auto/status HTTP/1.1" 200 OK
+2026-05-23 00:46:49,951 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:49,951 INFO sqlalchemy.engine.Engine SELECT analysis_records.code, analysis_records.asset_type, count(analysis_records.id) AS record_count, max(analysis_records.created_at) AS latest_time 
+FROM analysis_records GROUP BY analysis_records.code, analysis_records.asset_type ORDER BY max(analysis_records.created_at) DESC
+2026-05-23 00:46:49,951 INFO sqlalchemy.engine.Engine [cached since 234.1s ago] ()
+2026-05-23 00:46:49,951 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:49,951 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:49,951 INFO sqlalchemy.engine.Engine [cached since 259.8s ago] ()
+2026-05-23 00:46:49,951 INFO sqlalchemy.engine.Engine SELECT analysis_records.summary 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:49,951 INFO sqlalchemy.engine.Engine [cached since 234.1s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:49,951 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:49 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:46:49,956 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:49,956 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:49,956 INFO sqlalchemy.engine.Engine [cached since 259.8s ago] ()
+2026-05-23 00:46:49,956 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio 
+WHERE portfolio.code = ? AND portfolio.asset_type = ?
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:49,956 INFO sqlalchemy.engine.Engine [cached since 234.1s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:49,957 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:49,957 INFO sqlalchemy.engine.Engine [cached since 259.7s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:49,957 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:49,959 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:49,959 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:49,959 INFO sqlalchemy.engine.Engine [cached since 259.7s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:49,960 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:49,960 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50571 - "GET /api/warehouse/groups HTTP/1.1" 200 OK
+2026-05-23 00:46:49,961 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:49,961 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:46:49,961 INFO sqlalchemy.engine.Engine [cached since 259.7s ago] (2,)
+2026-05-23 00:46:49,962 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50572 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:46:51,223 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:51,223 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:51,223 INFO sqlalchemy.engine.Engine [cached since 261s ago] ()
+2026-05-23 00:46:51,223 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:51 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:46:51,223 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:51,223 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:51,223 INFO sqlalchemy.engine.Engine [cached since 261s ago] ()
+2026-05-23 00:46:51,227 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:51,228 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:51,228 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:51,229 INFO sqlalchemy.engine.Engine [cached since 261s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:51,230 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:51,230 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:51,231 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:46:51,231 INFO sqlalchemy.engine.Engine [cached since 260.9s ago] (2,)
+2026-05-23 00:46:51,231 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50574 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:46:53,477 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:53,477 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:53,477 INFO sqlalchemy.engine.Engine [cached since 263.3s ago] ()
+2026-05-23 00:46:53,477 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:53 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:46:53,477 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:53,477 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:46:53,477 INFO sqlalchemy.engine.Engine [cached since 263.3s ago] ()
+2026-05-23 00:46:53,481 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:53,481 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:53,482 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:46:53,482 INFO sqlalchemy.engine.Engine [cached since 263.3s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:46:53,483 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:46:53,485 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:53,485 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:46:53,485 INFO sqlalchemy.engine.Engine [cached since 263.2s ago] (2,)
+2026-05-23 00:46:53,486 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50576 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:46:53,491 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:46:53,491 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:46:53,491 INFO sqlalchemy.engine.Engine [cached since 263.2s ago] (2,)
+2026-05-23 00:46:53,492 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50578 - "GET /api/portfolio/2/transactions HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app\api\routes\analysis.py'. Reloading...
+2026-05-23 00:51:42,663 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:42,664 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:51:42,664 INFO sqlalchemy.engine.Engine [cached since 552.5s ago] ()
+2026-05-23 00:51:42,665 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:51:42 | INFO     | financial_analyzer | [data_hub] 文件缓存命中: c21fde3b2cbc4983e104a3706779ba1f.pkl
+2026-05-23 00:51:42,668 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:42,668 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:51:42,668 INFO sqlalchemy.engine.Engine [cached since 552.5s ago] ()
+2026-05-23 00:51:42,669 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:51:42,670 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:42,670 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:51:42,670 INFO sqlalchemy.engine.Engine [cached since 552.5s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:51:42,672 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:51:42,673 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:42,674 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:51:42,674 INFO sqlalchemy.engine.Engine [cached since 552.4s ago] (2,)
+2026-05-23 00:51:42,675 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:61689 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:51:42,683 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:42,684 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:51:42,684 INFO sqlalchemy.engine.Engine [cached since 552.4s ago] (2,)
+2026-05-23 00:51:42,684 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:61690 - "GET /api/portfolio/2/transactions HTTP/1.1" 200 OK
+2026-05-23 00:51:51,331 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:51,331 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:51:51,331 INFO sqlalchemy.engine.Engine [cached since 561.1s ago] ()
+2026-05-23 00:51:51,331 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:51:51 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:51:51,332 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:51,332 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:51:51,332 INFO sqlalchemy.engine.Engine [cached since 561.1s ago] ()
+2026-05-23 00:51:51,334 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:51:51,334 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:51,334 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:51:51,334 INFO sqlalchemy.engine.Engine [cached since 561.1s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:51:51,335 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:51:51,335 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:51,335 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:51:51,336 INFO sqlalchemy.engine.Engine [cached since 561s ago] (2,)
+2026-05-23 00:51:51,336 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:57224 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:51:51,342 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:51,342 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:51:51,342 INFO sqlalchemy.engine.Engine [cached since 561.1s ago] (2,)
+2026-05-23 00:51:51,343 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:57226 - "GET /api/portfolio/2/transactions HTTP/1.1" 200 OK
+2026-05-23 00:51:52,349 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:52,350 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:51:52,350 INFO sqlalchemy.engine.Engine [cached since 562.2s ago] ()
+2026-05-23 00:51:52,351 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:51:52 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:51:52,351 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:52,351 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:51:52,352 INFO sqlalchemy.engine.Engine [cached since 562.2s ago] ()
+2026-05-23 00:51:52,352 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:51:52,353 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:52,353 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:51:52,353 INFO sqlalchemy.engine.Engine [cached since 562.1s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:51:52,354 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:51:52,355 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:52,355 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:51:52,355 INFO sqlalchemy.engine.Engine [cached since 562.1s ago] (2,)
+2026-05-23 00:51:52,355 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:55210 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:51:52,362 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:51:52,362 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:51:52,362 INFO sqlalchemy.engine.Engine [cached since 562.1s ago] (2,)
+2026-05-23 00:51:52,362 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:55212 - "GET /api/portfolio/2/transactions HTTP/1.1" 200 OK
+2026-05-23 00:52:29,912 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:52:29,914 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:52:29,914 INFO sqlalchemy.engine.Engine [cached since 599.7s ago] ()
+2026-05-23 00:52:29,914 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:52:29 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:52:29,915 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:52:29,915 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:52:29,915 INFO sqlalchemy.engine.Engine [cached since 599.7s ago] ()
+2026-05-23 00:52:29,915 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:52:29,915 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:52:29,915 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:52:29,915 INFO sqlalchemy.engine.Engine [cached since 599.7s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:52:29,915 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:52:29,915 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:52:29,915 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:52:29,915 INFO sqlalchemy.engine.Engine [cached since 599.6s ago] (2,)
+2026-05-23 00:52:29,915 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54680 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:52:29,925 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:52:29,925 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:52:29,925 INFO sqlalchemy.engine.Engine [cached since 599.6s ago] (2,)
+2026-05-23 00:52:29,925 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54681 - "GET /api/portfolio/2/transactions HTTP/1.1" 200 OK
+2026-05-23 00:52:49,697 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:52:49,697 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:52:49,697 INFO sqlalchemy.engine.Engine [cached since 598.2s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:52:49,697 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54685 - "GET /api/warehouse/by-code/007028?asset_type=fund HTTP/1.1" 200 OK
+2026-05-23 00:52:52 | INFO     | financial_analyzer | [analysis] 开始分析 [fund] 007028 (易方达中证500ETF联接发起式A), 区间 2025-05-23 ~ 2026-05-23
+2026-05-23 00:52:52 | INFO     | financial_analyzer | [data_hub] 文件缓存命中: d74e427a12b0e22bcb24b889a76897fa.pkl
+2026-05-23 00:53:02,240 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:53:02,240 INFO sqlalchemy.engine.Engine INSERT INTO analysis_records (code, asset_type, summary, detail_json, created_at) VALUES (?, ?, ?, ?, ?)
+2026-05-23 00:53:02,240 INFO sqlalchemy.engine.Engine [cached since 462.2s ago] ('007028', 'fund', '当前净值2.0327处于近一年中位数附近，短期反弹但未脱离成本区，整体呈震荡格局。', '{"code":"007028","name":"易方达中证500ETF联接发起式A","asset_type":"fund","ai_report":{"code":"007028","name":"易方达中证500ETF联接发起式A","asset_type":"fund","summary" ... (26568 characters truncated) ... ate":"2026-05-22","open":2.0327,"close":2.0327,"high":2.0327,"low":2.0327,"volume":0.0,"code":"007028"}],"generated_at":"2026-05-23T00:53:02.240146"}', '2026-05-22 16:53:02.240146')
+2026-05-23 00:53:02,245 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:54687 - "GET /api/analysis/007028?asset_type=fund&name=%E6%98%93%E6%96%B9%E8%BE%BE%E4%B8%AD%E8%AF%81500ETF%E8%81%94%E6%8E%A5%E5%8F%91%E8%B5%B7%E5%BC%8FA&cost_price=2.1008&shares=52.36&holding_days=11 HTTP/1.1" 200 OK
+2026-05-23 00:53:11,449 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:53:11,451 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:53:11,451 INFO sqlalchemy.engine.Engine [cached since 619.9s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:53:11,451 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54692 - "GET /api/warehouse/by-code/007028?asset_type=fund HTTP/1.1" 200 OK
+2026-05-23 00:54:21,850 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:21,850 INFO sqlalchemy.engine.Engine SELECT analysis_records.code, analysis_records.asset_type, count(analysis_records.id) AS record_count, max(analysis_records.created_at) AS latest_time 
+FROM analysis_records GROUP BY analysis_records.code, analysis_records.asset_type ORDER BY max(analysis_records.created_at) DESC
+2026-05-23 00:54:21,850 INFO sqlalchemy.engine.Engine [cached since 686s ago] ()
+2026-05-23 00:54:21,850 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:21,850 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:54:21,850 INFO sqlalchemy.engine.Engine [cached since 711.7s ago] ()
+2026-05-23 00:54:21,850 INFO sqlalchemy.engine.Engine SELECT analysis_records.summary 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:21,850 INFO sqlalchemy.engine.Engine [cached since 686s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:54:21,853 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:21 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:54:21,854 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:21,854 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:54:21,855 INFO sqlalchemy.engine.Engine [cached since 711.7s ago] ()
+2026-05-23 00:54:21,855 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio 
+WHERE portfolio.code = ? AND portfolio.asset_type = ?
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:21,855 INFO sqlalchemy.engine.Engine [cached since 686s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:54:21,856 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:21,856 INFO sqlalchemy.engine.Engine [cached since 711.6s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:54:21,857 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:21,857 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:21,857 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:21,857 INFO sqlalchemy.engine.Engine [cached since 711.6s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:54:21,859 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54725 - "GET /api/warehouse/groups HTTP/1.1" 200 OK
+2026-05-23 00:54:21,860 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:21,860 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:21,860 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:54:21,860 INFO sqlalchemy.engine.Engine [cached since 711.6s ago] (2,)
+2026-05-23 00:54:21,860 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54727 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:54:22,158 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:22,158 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:54:22,158 INFO sqlalchemy.engine.Engine [cached since 712s ago] ()
+2026-05-23 00:54:22,159 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:22 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:54:22,159 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:22,159 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:54:22,159 INFO sqlalchemy.engine.Engine [cached since 712s ago] ()
+2026-05-23 00:54:22,159 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:22,159 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:22,159 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:22,159 INFO sqlalchemy.engine.Engine [cached since 712s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:54:22,163 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:22,163 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:22,164 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:54:22,164 INFO sqlalchemy.engine.Engine [cached since 711.9s ago] (2,)
+2026-05-23 00:54:22,164 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54729 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:54:22,170 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:22,170 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:54:22,170 INFO sqlalchemy.engine.Engine [cached since 711.9s ago] (2,)
+2026-05-23 00:54:22,171 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54731 - "GET /api/portfolio/2/transactions HTTP/1.1" 200 OK
+2026-05-23 00:54:30,251 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:30,251 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:54:30,251 INFO sqlalchemy.engine.Engine [cached since 720.1s ago] ()
+2026-05-23 00:54:30,252 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:30 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:54:30,253 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:30,253 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:54:30,253 INFO sqlalchemy.engine.Engine [cached since 720.1s ago] ()
+2026-05-23 00:54:30,254 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:30,255 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:30,255 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:30,255 INFO sqlalchemy.engine.Engine [cached since 720s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:54:30,256 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:30,257 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:30,257 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:54:30,257 INFO sqlalchemy.engine.Engine [cached since 720s ago] (2,)
+2026-05-23 00:54:30,258 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54734 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:54:30,927 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:30,928 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:30,928 INFO sqlalchemy.engine.Engine [cached since 723.5s ago] ('AUTO', 1, 0)
+2026-05-23 00:54:30,928 INFO sqlalchemy.engine.Engine SELECT backup_records.id, backup_records.file_path, backup_records.file_size_bytes, backup_records.created_at 
+FROM backup_records ORDER BY backup_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:30,928 INFO sqlalchemy.engine.Engine [cached since 723.5s ago] (1, 0)
+2026-05-23 00:54:30,928 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54737 - "GET /api/auto/status HTTP/1.1" 200 OK
+2026-05-23 00:54:32,064 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:32,064 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:54:32,064 INFO sqlalchemy.engine.Engine [cached since 721.9s ago] ()
+2026-05-23 00:54:32,065 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:32 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:54:32,066 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:32,066 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:54:32,066 INFO sqlalchemy.engine.Engine [cached since 721.9s ago] ()
+2026-05-23 00:54:32,067 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:32,068 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:32,068 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:32,068 INFO sqlalchemy.engine.Engine [cached since 721.9s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:54:32,070 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:32,070 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:32,071 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:54:32,071 INFO sqlalchemy.engine.Engine [cached since 721.8s ago] (2,)
+2026-05-23 00:54:32,072 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54738 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:54:32,078 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:32,078 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:54:32,078 INFO sqlalchemy.engine.Engine [cached since 721.8s ago] (2,)
+2026-05-23 00:54:32,079 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54740 - "GET /api/portfolio/2/transactions HTTP/1.1" 200 OK
+2026-05-23 00:54:32,826 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:32,826 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:32,826 INFO sqlalchemy.engine.Engine [cached since 701.3s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:54:32,828 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54742 - "GET /api/warehouse/by-code/007028?asset_type=fund HTTP/1.1" 200 OK
+2026-05-23 00:54:46,564 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:46,564 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:54:46,564 INFO sqlalchemy.engine.Engine [cached since 736.4s ago] ()
+2026-05-23 00:54:46,564 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:46 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:54:46,564 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:46,564 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:54:46,564 INFO sqlalchemy.engine.Engine [cached since 736.4s ago] ()
+2026-05-23 00:54:46,568 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:46,568 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:46,569 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:46,569 INFO sqlalchemy.engine.Engine [cached since 736.4s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:54:46,570 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:46,570 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:46,570 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:54:46,570 INFO sqlalchemy.engine.Engine [cached since 736.3s ago] (2,)
+2026-05-23 00:54:46,571 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54748 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:54:47,396 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:47,396 INFO sqlalchemy.engine.Engine SELECT analysis_records.code, analysis_records.asset_type, count(analysis_records.id) AS record_count, max(analysis_records.created_at) AS latest_time 
+FROM analysis_records GROUP BY analysis_records.code, analysis_records.asset_type ORDER BY max(analysis_records.created_at) DESC
+2026-05-23 00:54:47,396 INFO sqlalchemy.engine.Engine [cached since 711.5s ago] ()
+2026-05-23 00:54:47,396 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:47,396 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:54:47,396 INFO sqlalchemy.engine.Engine [cached since 737.2s ago] ()
+2026-05-23 00:54:47,398 INFO sqlalchemy.engine.Engine SELECT analysis_records.summary 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:47,398 INFO sqlalchemy.engine.Engine [cached since 711.5s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:54:47,398 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:47,400 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio 
+WHERE portfolio.code = ? AND portfolio.asset_type = ?
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:47,400 INFO sqlalchemy.engine.Engine [cached since 711.5s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:54:47 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:54:47,400 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:47,401 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:54:47,401 INFO sqlalchemy.engine.Engine [cached since 737.2s ago] ()
+2026-05-23 00:54:47,401 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:47,401 INFO sqlalchemy.engine.Engine [cached since 737.2s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:54:47,401 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:47,401 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:47,401 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:54:47,401 INFO sqlalchemy.engine.Engine [cached since 737.2s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:54:47,403 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54751 - "GET /api/warehouse/groups HTTP/1.1" 200 OK
+2026-05-23 00:54:47,405 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:54:47,405 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:47,405 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:54:47,405 INFO sqlalchemy.engine.Engine [cached since 737.1s ago] (2,)
+2026-05-23 00:54:47,407 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54752 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:54:50,604 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:50,604 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+2026-05-23 00:54:50,604 INFO sqlalchemy.engine.Engine [cached since 713.9s ago] ('007028', 'fund')
+2026-05-23 00:54:50,604 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54754 - "GET /api/warehouse/by-code/007028/all?asset_type=fund HTTP/1.1" 200 OK
+2026-05-23 00:54:51,579 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:51,579 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.id = ?
+2026-05-23 00:54:51,579 INFO sqlalchemy.engine.Engine [cached since 504s ago] (3,)
+2026-05-23 00:54:51,579 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54756 - "GET /api/warehouse/3 HTTP/1.1" 200 OK
+2026-05-23 00:54:54,654 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:54,654 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.id = ?
+2026-05-23 00:54:54,654 INFO sqlalchemy.engine.Engine [cached since 507s ago] (4,)
+2026-05-23 00:54:54,654 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54758 - "GET /api/warehouse/4 HTTP/1.1" 200 OK
+2026-05-23 00:54:59,375 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:54:59,375 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.id = ?
+2026-05-23 00:54:59,375 INFO sqlalchemy.engine.Engine [cached since 511.8s ago] (3,)
+2026-05-23 00:54:59,378 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54760 - "GET /api/warehouse/3 HTTP/1.1" 200 OK
+2026-05-23 00:55:01,354 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:55:01,354 INFO sqlalchemy.engine.Engine SELECT analysis_records.id, analysis_records.code, analysis_records.asset_type, analysis_records.summary, analysis_records.detail_json, analysis_records.created_at 
+FROM analysis_records 
+WHERE analysis_records.id = ?
+2026-05-23 00:55:01,354 INFO sqlalchemy.engine.Engine [cached since 513.7s ago] (4,)
+2026-05-23 00:55:01,354 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:54763 - "GET /api/warehouse/4 HTTP/1.1" 200 OK
+2026-05-23 00:57:18,621 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:57:18,621 INFO sqlalchemy.engine.Engine SELECT analysis_records.code, analysis_records.asset_type, count(analysis_records.id) AS record_count, max(analysis_records.created_at) AS latest_time 
+FROM analysis_records GROUP BY analysis_records.code, analysis_records.asset_type ORDER BY max(analysis_records.created_at) DESC
+2026-05-23 00:57:18,621 INFO sqlalchemy.engine.Engine [cached since 862.8s ago] ()
+2026-05-23 00:57:18,621 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:57:18,621 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:57:18,621 INFO sqlalchemy.engine.Engine [cached since 888.4s ago] ()
+2026-05-23 00:57:18,621 INFO sqlalchemy.engine.Engine SELECT analysis_records.summary 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:57:18,621 INFO sqlalchemy.engine.Engine [cached since 862.7s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:57:18,621 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:57:18 | INFO     | financial_analyzer | [data_hub] 文件缓存命中: c21fde3b2cbc4983e104a3706779ba1f.pkl
+2026-05-23 00:57:18,626 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:57:18,627 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:57:18,627 INFO sqlalchemy.engine.Engine [cached since 888.4s ago] ()
+2026-05-23 00:57:18,627 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio 
+WHERE portfolio.code = ? AND portfolio.asset_type = ?
+ LIMIT ? OFFSET ?
+2026-05-23 00:57:18,627 INFO sqlalchemy.engine.Engine [cached since 862.8s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:57:18,629 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:57:18,629 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:57:18,630 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:57:18,630 INFO sqlalchemy.engine.Engine [cached since 888.4s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:57:18,631 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:57:18,631 INFO sqlalchemy.engine.Engine [cached since 888.4s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:57:18,632 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:57:18,632 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:57:18,632 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:57:18,632 INFO sqlalchemy.engine.Engine [cached since 888.3s ago] (2,)
+2026-05-23 00:57:18,632 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:65314 - "GET /api/warehouse/groups HTTP/1.1" 200 OK
+2026-05-23 00:57:18,632 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:65316 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:57:32,612 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:57:32,612 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:57:32,612 INFO sqlalchemy.engine.Engine [cached since 902.4s ago] ()
+2026-05-23 00:57:32,615 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:57:32 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:57:32,616 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:57:32,616 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:57:32,616 INFO sqlalchemy.engine.Engine [cached since 902.4s ago] ()
+2026-05-23 00:57:32,617 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:57:32,618 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:57:32,618 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:57:32,618 INFO sqlalchemy.engine.Engine [cached since 902.4s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:57:32,619 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:57:32,619 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:57:32,619 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:57:32,619 INFO sqlalchemy.engine.Engine [cached since 902.3s ago] (2,)
+2026-05-23 00:57:32,620 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:65319 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:57:32,625 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:57:32,625 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:57:32,625 INFO sqlalchemy.engine.Engine [cached since 902.3s ago] (2,)
+2026-05-23 00:57:32,625 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:65321 - "GET /api/portfolio/2/transactions HTTP/1.1" 200 OK
+2026-05-23 00:59:12,404 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:59:12,404 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:59:12,404 INFO sqlalchemy.engine.Engine [cached since 1002s ago] ()
+2026-05-23 00:59:12,405 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:59:12 | INFO     | financial_analyzer | [data_hub] 内存缓存命中 [fund]: 007028
+2026-05-23 00:59:12,407 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:59:12,407 INFO sqlalchemy.engine.Engine SELECT portfolio.id, portfolio.code, portfolio.name, portfolio.asset_type, portfolio.shares, portfolio.cost_price, portfolio.total_fees, portfolio.added_at 
+FROM portfolio
+2026-05-23 00:59:12,407 INFO sqlalchemy.engine.Engine [cached since 1002s ago] ()
+2026-05-23 00:59:12,408 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:59:12,410 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:59:12,410 INFO sqlalchemy.engine.Engine SELECT analysis_records.detail_json 
+FROM analysis_records 
+WHERE analysis_records.code = ? AND analysis_records.asset_type = ? ORDER BY analysis_records.created_at DESC
+ LIMIT ? OFFSET ?
+2026-05-23 00:59:12,410 INFO sqlalchemy.engine.Engine [cached since 1002s ago] ('007028', 'fund', 1, 0)
+2026-05-23 00:59:12,410 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-05-23 00:59:12,412 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:59:12,412 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:59:12,412 INFO sqlalchemy.engine.Engine [cached since 1002s ago] (2,)
+2026-05-23 00:59:12,414 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:62064 - "GET /api/portfolio HTTP/1.1" 200 OK
+2026-05-23 00:59:12,420 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-05-23 00:59:12,420 INFO sqlalchemy.engine.Engine SELECT transactions.id, transactions.portfolio_id, transactions.code, transactions.name, transactions.asset_type, transactions.tx_type, transactions.shares, transactions.price, transactions.amount, transactions.fee, transactions.tx_date, transactions.created_at 
+FROM transactions 
+WHERE transactions.portfolio_id = ? ORDER BY transactions.tx_date DESC
+2026-05-23 00:59:12,420 INFO sqlalchemy.engine.Engine [cached since 1002s ago] (2,)
+2026-05-23 00:59:12,420 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:62065 - "GET /api/portfolio/2/transactions HTTP/1.1" 200 OK

@@ -122,7 +122,7 @@ async function load() {
       await Promise.all(portfolio.value.funds.items.map(item =>
         api.getTransactions(item.id).then(txs => {
           txCache.value[item.id] = txs
-        }).catch(() => {})
+        }).catch(() => { })
       ))
     }
   } catch (e: any) {
@@ -147,23 +147,23 @@ async function openAnalysis(item: PortfolioItem) {
   modalItem.value = item
   showProfessional.value = false
 
+  // 优先从分析仓库加载最近记录
   try {
     const cached = await api.getWarehouseLatest(item.code, 'fund')
     if (cached && cached.detail_json) {
-      try {
-        const parsed = JSON.parse(cached.detail_json) as AnalysisResult
-        if (parsed && parsed.ai_report) {
-          modalAnalysis.value = parsed
-        }
-      } catch { /* ignore */ }
+      const parsed = JSON.parse(cached.detail_json) as AnalysisResult
+      if (parsed && parsed.ai_report) {
+        modalAnalysis.value = parsed
+      }
     }
   } catch { /* ignore */ }
 
+  // 仓库无记录则实时分析
   if (!modalAnalysis.value) {
     try {
       const result = await api.analyzeAsset(
         item.code, 'fund', item.name,
-        '', '', item.cost_price, item.shares,
+        '', '', item.cost_price, item.shares, item.holding_days,
       )
       modalAnalysis.value = result
     } catch (e: any) {
@@ -180,7 +180,7 @@ async function refreshAnalysis() {
   try {
     const result = await api.analyzeAsset(
       modalItem.value.code, 'fund', modalItem.value.name,
-      '', '', modalItem.value.cost_price, modalItem.value.shares,
+      '', '', modalItem.value.cost_price, modalItem.value.shares, modalItem.value.holding_days,
     )
     modalAnalysis.value = result
   } catch (e: any) {
@@ -420,6 +420,7 @@ onMounted(load)
             <span class="ps-label">累计盈亏</span>
             <span class="ps-value" :class="item.profit_loss >= 0 ? 'clr-up' : 'clr-down'">
               {{ item.profit_loss >= 0 ? '+' : '' }}{{ pct(item.profit_loss_pct) }}%
+              <span class="ps-amount">({{ item.profit_loss >= 0 ? '+' : '' }}¥{{ money(item.profit_loss) }})</span>
             </span>
           </div>
           <div class="ps-item">
@@ -455,21 +456,28 @@ onMounted(load)
 
           <div v-if="showAddTxForm[item.id]" class="tx-add-form">
             <label class="tx-label">日期 <input v-model="addTxForm.tx_date" type="date" class="fi-xs" /></label>
-            <label class="tx-label">份额 <input v-model="addTxForm.shares" type="number" step="0.0001" min="0" class="fi-xs" placeholder="份额" /></label>
-            <label class="tx-label">净值 <input v-model="addTxForm.price" type="number" step="0.0001" min="0" class="fi-xs" placeholder="净值" /></label>
-            <label class="tx-label">手续费 <input v-model="addTxForm.fee" type="number" step="0.01" min="0" class="fi-xs" placeholder="手续费" /></label>
+            <label class="tx-label">份额 <input v-model="addTxForm.shares" type="number" step="0.0001" min="0"
+                class="fi-xs" placeholder="份额" /></label>
+            <label class="tx-label">净值 <input v-model="addTxForm.price" type="number" step="0.0001" min="0"
+                class="fi-xs" placeholder="净值" /></label>
+            <label class="tx-label">手续费 <input v-model="addTxForm.fee" type="number" step="0.01" min="0" class="fi-xs"
+                placeholder="手续费" /></label>
             <button class="btn btn-primary btn-xs" @click="submitAddTx(item)">确认</button>
           </div>
 
           <div v-if="txLoading[item.id]" class="tx-status">加载中...</div>
-          <div v-else-if="!txCache[item.id] || txCache[item.id]!.length === 0" class="tx-status clr-secondary">暂无交易记录</div>
+          <div v-else-if="!txCache[item.id] || txCache[item.id]!.length === 0" class="tx-status clr-secondary">暂无交易记录
+          </div>
           <div v-else class="tx-list">
             <div v-for="tx in txCache[item.id]!" :key="tx.id" class="tx-row">
               <template v-if="editingTxId === tx.id">
                 <label class="tx-label">日期 <input v-model="editTxForm.tx_date" type="date" class="fi-xs" /></label>
-                <label class="tx-label">份额 <input v-model="editTxForm.shares" type="number" step="0.0001" min="0" class="fi-xs" /></label>
-                <label class="tx-label">净值 <input v-model="editTxForm.price" type="number" step="0.0001" min="0" class="fi-xs" /></label>
-                <label class="tx-label">手续费 <input v-model="editTxForm.fee" type="number" step="0.01" min="0" class="fi-xs" /></label>
+                <label class="tx-label">份额 <input v-model="editTxForm.shares" type="number" step="0.0001" min="0"
+                    class="fi-xs" /></label>
+                <label class="tx-label">净值 <input v-model="editTxForm.price" type="number" step="0.0001" min="0"
+                    class="fi-xs" /></label>
+                <label class="tx-label">手续费 <input v-model="editTxForm.fee" type="number" step="0.01" min="0"
+                    class="fi-xs" /></label>
                 <button class="btn btn-primary btn-xs" @click="saveEditTx(tx)">保存</button>
                 <button class="btn btn-xs" @click="cancelEdit">取消</button>
               </template>
@@ -477,9 +485,9 @@ onMounted(load)
                 <span class="tx-date">{{ tx.tx_date }}</span>
                 <span class="tx-type" :class="'txt-' + tx.tx_type">{{ txTypeLabel(tx.tx_type) }}</span>
                 <span class="tx-shares">{{ tx.shares }}份</span>
-                <span class="tx-price">@¥{{ money(tx.price) }}</span>
-                <span class="tx-fee">费¥{{ money(tx.fee) }}</span>
-                <span class="tx-amount">¥{{ money(tx.amount) }}</span>
+                <span class="tx-price">净值 ¥<span style="color: gold;">{{ money(tx.price) }}</span></span>
+                <span class="tx-fee">手续费 ¥<span style="color: gold;">{{ money(tx.fee) }}</span></span>
+                <span class="tx-amount">总价值 ¥<span style="color: gold;">{{ money(tx.amount) }}</span></span>
                 <div class="tx-act">
                   <button class="btn btn-xs btn-outline" @click="startEditTx(tx)">✎</button>
                   <button class="btn btn-xs btn-outline" @click="deleteTx(tx.id, item.id)">🗑</button>
@@ -513,7 +521,8 @@ onMounted(load)
               <template v-if="txDialogMode === 'buy'">
                 <div class="field">
                   <label>基金代码</label>
-                  <input v-model="dialogCode" type="text" placeholder="如 110011" class="form-input" @input="onCodeInput" />
+                  <input v-model="dialogCode" type="text" placeholder="如 110011" class="form-input"
+                    @input="onCodeInput" />
                   <span v-if="dialogNameLoading" class="field-spinner"></span>
                 </div>
                 <div class="field">
@@ -529,7 +538,8 @@ onMounted(load)
                 <label>交易份额</label>
                 <input v-model="dialogShares" type="number" step="0.0001" min="0" class="form-input"
                   :max="txDialogMode === 'reduce' && txDialogItem ? txDialogItem.shares : undefined" />
-                <span v-if="txDialogMode === 'reduce' && txDialogItem" class="field-hint">最大 {{ txDialogItem.shares }} 份</span>
+                <span v-if="txDialogMode === 'reduce' && txDialogItem" class="field-hint">最大 {{ txDialogItem.shares }}
+                  份</span>
               </div>
               <div class="field">
                 <label>单位净值</label>
@@ -544,7 +554,9 @@ onMounted(load)
           </div>
           <div class="modal-ft">
             <button class="btn" @click="closeTxDialog">取消</button>
-            <button class="btn btn-primary" :disabled="dialogSubmitting || !dialogCode || dialogShares <= 0 || dialogPrice <= 0 || !dialogDate" @click="submitTxDialog">
+            <button class="btn btn-primary"
+              :disabled="dialogSubmitting || !dialogCode || dialogShares <= 0 || dialogPrice <= 0 || !dialogDate"
+              @click="submitTxDialog">
               {{ dialogSubmitting ? '提交中...' : '确认' }}
             </button>
           </div>
@@ -561,9 +573,11 @@ onMounted(load)
               <h2 class="modal-title">{{ modalItem?.code }}</h2>
               <span class="tag tag-yellow">基金</span>
               <span class="full-name">{{ modalItem?.name }}</span>
+              <span v-if="modalItem" class="modal-holding">持有 {{ modalItem.holding_days }}天</span>
             </div>
             <div class="modal-actions">
-              <button v-if="modalAnalysis" class="btn btn-sm btn-outline" :disabled="freshLoading" @click="refreshAnalysis">
+              <button v-if="modalAnalysis" class="btn btn-sm btn-outline" :disabled="freshLoading"
+                @click="refreshAnalysis">
                 <span v-if="freshLoading" class="btn-spinner"></span>
                 <span v-else>⟳ 刷新行情</span>
               </button>
@@ -572,13 +586,18 @@ onMounted(load)
           </div>
 
           <div v-if="modalLoading" class="modal-loading">
-            <div class="loading-pulse"><div class="pulse-ring"></div><p class="loading-text">加载分析数据...</p></div>
+            <div class="loading-pulse">
+              <div class="pulse-ring"></div>
+              <p class="loading-text">加载分析数据...</p>
+            </div>
           </div>
 
           <div v-else-if="modalAnalysis" class="modal-bd">
             <div class="toggle-bar">
-              <button class="toggle-btn" :class="{ active: !showProfessional }" @click="showProfessional = false">通俗结论</button>
-              <button class="toggle-btn" :class="{ active: showProfessional }" @click="showProfessional = true">专业分析</button>
+              <button class="toggle-btn" :class="{ active: !showProfessional }"
+                @click="showProfessional = false">通俗结论</button>
+              <button class="toggle-btn" :class="{ active: showProfessional }"
+                @click="showProfessional = true">专业分析</button>
             </div>
 
             <template v-if="!showProfessional">
@@ -602,10 +621,19 @@ onMounted(load)
                 }">{{ modalAnalysis.ai_report.position_action }}</span>
               </div>
               <div class="grid-2">
-                <div v-if="modalAnalysis.ai_report.buy_zone" class="card-inner card-buy"><h3 class="sect-title">买入区间</h3><p class="sect-body">{{ modalAnalysis.ai_report.buy_zone }}</p></div>
-                <div v-if="modalAnalysis.ai_report.sell_zone" class="card-inner card-sell"><h3 class="sect-title">止盈/止损</h3><p class="sect-body">{{ modalAnalysis.ai_report.sell_zone }}</p></div>
+                <div v-if="modalAnalysis.ai_report.buy_zone" class="card-inner card-buy">
+                  <h3 class="sect-title">买入区间</h3>
+                  <p class="sect-body">{{ modalAnalysis.ai_report.buy_zone }}</p>
+                </div>
+                <div v-if="modalAnalysis.ai_report.sell_zone" class="card-inner card-sell">
+                  <h3 class="sect-title">止盈/止损</h3>
+                  <p class="sect-body">{{ modalAnalysis.ai_report.sell_zone }}</p>
+                </div>
               </div>
-              <div v-if="modalAnalysis.ai_report.advice" class="card-inner card-advice"><h3 class="sect-title">综合建议</h3><p class="sect-body advice-text">{{ modalAnalysis.ai_report.advice }}</p></div>
+              <div v-if="modalAnalysis.ai_report.advice" class="card-inner card-advice">
+                <h3 class="sect-title">综合建议</h3>
+                <p class="sect-body advice-text">{{ modalAnalysis.ai_report.advice }}</p>
+              </div>
             </template>
 
             <template v-if="showProfessional">
@@ -613,25 +641,63 @@ onMounted(load)
                 <h3 class="sect-title">净值走势</h3>
                 <FinancialChart :data="chartData" asset-type="fund" :height="400" />
               </div>
-              <div class="summary-section card-inner"><p class="summary-text">{{ modalAnalysis.ai_report.summary || '暂无摘要' }}</p></div>
-              <div v-if="modalAnalysis.ai_report.personal_advice" class="card-inner card-advice"><h3 class="sect-title">个人持仓专属建议</h3><p class="sect-body advice-text">{{ modalAnalysis.ai_report.personal_advice }}</p></div>
-              <div v-if="modalAnalysis.ai_report.market_advice" class="card-inner card-info"><h3 class="sect-title">通用市场参考建议</h3><p class="sect-body advice-text">{{ modalAnalysis.ai_report.market_advice }}</p></div>
-              <div v-if="modalAnalysis.ai_report.position_action" class="action-bar"><span class="action-label">操作方向</span><span class="action-chip" :class="{'chip-hold': modalAnalysis.ai_report.position_action.includes('持有'),'chip-add': modalAnalysis.ai_report.position_action.includes('加仓'),'chip-reduce': modalAnalysis.ai_report.position_action.includes('减仓') || modalAnalysis.ai_report.position_action.includes('观望')}">{{ modalAnalysis.ai_report.position_action }}</span></div>
+              <div class="summary-section card-inner">
+                <p class="summary-text">{{ modalAnalysis.ai_report.summary || '暂无摘要' }}</p>
+              </div>
+              <div v-if="modalAnalysis.ai_report.personal_advice" class="card-inner card-advice">
+                <h3 class="sect-title">个人持仓专属建议</h3>
+                <p class="sect-body advice-text">{{ modalAnalysis.ai_report.personal_advice }}</p>
+              </div>
+              <div v-if="modalAnalysis.ai_report.market_advice" class="card-inner card-info">
+                <h3 class="sect-title">通用市场参考建议</h3>
+                <p class="sect-body advice-text">{{ modalAnalysis.ai_report.market_advice }}</p>
+              </div>
+              <div v-if="modalAnalysis.ai_report.position_action" class="action-bar"><span
+                  class="action-label">操作方向</span><span class="action-chip"
+                  :class="{ 'chip-hold': modalAnalysis.ai_report.position_action.includes('持有'), 'chip-add': modalAnalysis.ai_report.position_action.includes('加仓'), 'chip-reduce': modalAnalysis.ai_report.position_action.includes('减仓') || modalAnalysis.ai_report.position_action.includes('观望') }">{{
+                    modalAnalysis.ai_report.position_action }}</span></div>
               <div class="grid-2">
-                <div v-if="modalAnalysis.ai_report.buy_zone" class="card-inner card-buy"><h3 class="sect-title">买入区间</h3><p class="sect-body">{{ modalAnalysis.ai_report.buy_zone }}</p></div>
-                <div v-if="modalAnalysis.ai_report.sell_zone" class="card-inner card-sell"><h3 class="sect-title">止盈/止损</h3><p class="sect-body">{{ modalAnalysis.ai_report.sell_zone }}</p></div>
+                <div v-if="modalAnalysis.ai_report.buy_zone" class="card-inner card-buy">
+                  <h3 class="sect-title">买入区间</h3>
+                  <p class="sect-body">{{ modalAnalysis.ai_report.buy_zone }}</p>
+                </div>
+                <div v-if="modalAnalysis.ai_report.sell_zone" class="card-inner card-sell">
+                  <h3 class="sect-title">止盈/止损</h3>
+                  <p class="sect-body">{{ modalAnalysis.ai_report.sell_zone }}</p>
+                </div>
               </div>
               <div class="grid-2">
-                <div class="card-inner"><h3 class="sect-title">净值走势</h3><p class="sect-body">{{ modalAnalysis.ai_report.technical_view || '暂无数据' }}</p></div>
-                <div class="card-inner"><h3 class="sect-title">基金档案</h3><p class="sect-body">{{ modalAnalysis.ai_report.fundamental_view || '暂无数据' }}</p></div>
+                <div class="card-inner">
+                  <h3 class="sect-title">净值走势</h3>
+                  <p class="sect-body">{{ modalAnalysis.ai_report.technical_view || '暂无数据' }}</p>
+                </div>
+                <div class="card-inner">
+                  <h3 class="sect-title">基金档案</h3>
+                  <p class="sect-body">{{ modalAnalysis.ai_report.fundamental_view || '暂无数据' }}</p>
+                </div>
               </div>
               <div class="grid-2">
-                <div class="card-inner"><h3 class="sect-title">市场情绪</h3><p class="sect-body">{{ modalAnalysis.ai_report.sentiment_view || '暂无数据' }}</p></div>
-                <div class="card-inner"><h3 class="sect-title">潜在机会</h3><p class="sect-body">{{ modalAnalysis.ai_report.opportunity || '暂无数据' }}</p></div>
+                <div class="card-inner">
+                  <h3 class="sect-title">市场情绪</h3>
+                  <p class="sect-body">{{ modalAnalysis.ai_report.sentiment_view || '暂无数据' }}</p>
+                </div>
+                <div class="card-inner">
+                  <h3 class="sect-title">潜在机会</h3>
+                  <p class="sect-body">{{ modalAnalysis.ai_report.opportunity || '暂无数据' }}</p>
+                </div>
               </div>
-              <div v-if="modalAnalysis.ai_report.strategy" class="card-inner card-advice"><h3 class="sect-title">策略建议</h3><p class="sect-body advice-text">{{ modalAnalysis.ai_report.strategy }}</p></div>
-              <div class="card-inner card-warning"><h3 class="sect-title">风险提示</h3><p class="sect-body">{{ modalAnalysis.ai_report.risk_warning || '暂无数据' }}</p></div>
-              <div class="card-inner card-advice"><h3 class="sect-title">综合建议</h3><p class="sect-body advice-text">{{ modalAnalysis.ai_report.advice || '暂无数据' }}</p></div>
+              <div v-if="modalAnalysis.ai_report.strategy" class="card-inner card-advice">
+                <h3 class="sect-title">策略建议</h3>
+                <p class="sect-body advice-text">{{ modalAnalysis.ai_report.strategy }}</p>
+              </div>
+              <div class="card-inner card-warning">
+                <h3 class="sect-title">风险提示</h3>
+                <p class="sect-body">{{ modalAnalysis.ai_report.risk_warning || '暂无数据' }}</p>
+              </div>
+              <div class="card-inner card-advice">
+                <h3 class="sect-title">综合建议</h3>
+                <p class="sect-body advice-text">{{ modalAnalysis.ai_report.advice || '暂无数据' }}</p>
+              </div>
             </template>
           </div>
         </div>
@@ -641,21 +707,65 @@ onMounted(load)
 </template>
 
 <style scoped>
-.page { max-width: 1040px; margin: 0 auto; padding: 1.5rem 1rem; min-height: 100vh; }
-.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem; }
-.page-title { font-size: 1.7rem; font-weight: 700; background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.header-actions { display: flex; gap: 0.5rem; align-items: center; }
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  min-height: 100vh;
+}
 
-.mt-4 { margin-top: 1rem; }
-.mt-2 { margin-top: 0.5rem; }
-.text-sm { font-size: 0.85rem; }
-.clr-secondary { color: var(--text-secondary); }
-.clr-up { color: var(--green); }
-.clr-down { color: var(--red); }
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.page-title {
+  font-size: 1.7rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.text-sm {
+  font-size: 0.85rem;
+}
+
+.clr-secondary {
+  color: var(--text-secondary);
+}
+
+.clr-up {
+  color: var(--green);
+}
+
+.clr-down {
+  color: var(--red);
+}
 
 /* Summary bar */
 .summary-bar {
-  display: flex; gap: 0.75rem;
+  display: flex;
+  gap: 0.75rem;
   background: linear-gradient(135deg, rgba(22, 26, 40, 0.9), rgba(26, 30, 48, 0.85));
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -664,16 +774,45 @@ onMounted(load)
   margin-bottom: 1.25rem;
   backdrop-filter: blur(12px);
 }
-.summary-stat { text-align: center; padding: 0 1rem; position: relative; }
-.summary-stat + .summary-stat::before {
-  content: ''; position: absolute; left: 0; top: 10%; height: 80%; width: 1px;
+
+.summary-stat {
+  text-align: center;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.summary-stat+.summary-stat::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10%;
+  height: 80%;
+  width: 1px;
   background: linear-gradient(to bottom, transparent, var(--border), transparent);
 }
-.stat-label { display: block; font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.5px; }
-.stat-val { font-size: 1.25rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.stat-label {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-val {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
 
 /* Position cards */
-.position-list { display: flex; flex-direction: column; gap: 0.85rem; }
+.position-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
 .pos-card {
   padding: 1.25rem 1.35rem;
   background: linear-gradient(135deg, rgba(22, 26, 40, 0.9), rgba(26, 30, 48, 0.8));
@@ -681,17 +820,57 @@ onMounted(load)
   position: relative;
   overflow: hidden;
 }
+
 .pos-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
   background: linear-gradient(90deg, transparent, rgba(79, 195, 247, 0.15), transparent);
-  opacity: 0; transition: opacity 0.3s;
+  opacity: 0;
+  transition: opacity 0.3s;
 }
-.pos-card:hover::before { opacity: 1; }
-.pos-header { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
-.pos-title { display: flex; align-items: center; gap: 0.6rem; }
-.pos-code { font-weight: 700; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
-.pos-name { font-size: 0.92rem; color: var(--text-secondary); max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.pos-header-actions { display: flex; gap: 0.35rem; }
+
+.pos-card:hover::before {
+  opacity: 1;
+}
+
+.pos-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.pos-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.pos-code {
+  font-weight: 700;
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.pos-name {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pos-header-actions {
+  display: flex;
+  gap: 0.35rem;
+}
 
 /* Stats grid - Bento style */
 .pos-stats {
@@ -700,7 +879,13 @@ onMounted(load)
   gap: 0.6rem;
   margin-bottom: 0.75rem;
 }
-@media (max-width: 600px) { .pos-stats { grid-template-columns: repeat(2, 1fr); } }
+
+@media (max-width: 600px) {
+  .pos-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .ps-item {
   text-align: center;
   padding: 0.5rem 0.3rem;
@@ -709,174 +894,737 @@ onMounted(load)
   border: 1px solid rgba(42, 46, 58, 0.3);
   transition: border-color 0.2s, background 0.2s;
 }
+
 .ps-item:hover {
   border-color: var(--border-hover);
   background: rgba(15, 17, 23, 0.6);
 }
-.ps-label { display: block; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.2rem; text-transform: uppercase; letter-spacing: 0.4px; }
-.ps-value { font-size: 1.08rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.ps-label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.ps-value {
+  font-size: 1.08rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.ps-amount {
+  font-size: 0.78rem;
+  font-weight: 500;
+  opacity: 0.8;
+  display: inline-block;
+  margin-left: 0.15rem;
+}
 
 /* Action buttons */
-.pos-actions { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+.pos-actions {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
 
 /* Suggestion */
 .pos-suggestion {
-  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
-  padding: 0.4rem 0.6rem; border-radius: var(--radius-sm);
-  font-size: 0.82rem; margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  margin-bottom: 0.3rem;
   border-left: 3px solid transparent;
 }
-.sug-badge { font-weight: 700; font-size: 0.85rem; padding: 0.15rem 0.55rem; border-radius: 100px; }
-.zone { font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 100px; font-weight: 500; }
-.zone-buy { background: var(--green-dim); color: var(--green); }
-.zone-sell { background: var(--red-dim); color: var(--red); }
-.sug-reason { font-size: 0.78rem; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-.sugo-add .sug-badge { background: var(--green-dim); color: var(--green); }
-.sugo-add { background: rgba(52, 211, 153, 0.04); border-left-color: var(--green); }
-.sugo-reduce .sug-badge { background: var(--orange-dim); color: var(--orange); }
-.sugo-reduce { background: rgba(251, 191, 36, 0.04); border-left-color: var(--orange); }
-.sugo-sell .sug-badge { background: var(--red-dim); color: var(--red); }
-.sugo-sell { background: rgba(239, 68, 68, 0.04); border-left-color: #ef4444; }
-.sugo-dca .sug-badge { background: var(--accent-dim); color: var(--accent); }
-.sugo-dca { background: rgba(79, 195, 247, 0.04); border-left-color: var(--accent); }
-.sugo-hold .sug-badge { background: rgba(154, 160, 166, 0.1); color: var(--text-secondary); }
-.sugo-hold { background: rgba(154, 160, 166, 0.03); border-left-color: var(--text-secondary); }
+.sug-badge {
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 100px;
+}
+
+.zone {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 100px;
+  font-weight: 500;
+}
+
+.zone-buy {
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+.zone-sell {
+  background: var(--red-dim);
+  color: var(--red);
+}
+
+.sug-reason {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sugo-add .sug-badge {
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+.sugo-add {
+  background: rgba(52, 211, 153, 0.04);
+  border-left-color: var(--green);
+}
+
+.sugo-reduce .sug-badge {
+  background: var(--orange-dim);
+  color: var(--orange);
+}
+
+.sugo-reduce {
+  background: rgba(251, 191, 36, 0.04);
+  border-left-color: var(--orange);
+}
+
+.sugo-sell .sug-badge {
+  background: var(--red-dim);
+  color: var(--red);
+}
+
+.sugo-sell {
+  background: rgba(239, 68, 68, 0.04);
+  border-left-color: #ef4444;
+}
+
+.sugo-dca .sug-badge {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.sugo-dca {
+  background: rgba(79, 195, 247, 0.04);
+  border-left-color: var(--accent);
+}
+
+.sugo-hold .sug-badge {
+  background: rgba(154, 160, 166, 0.1);
+  color: var(--text-secondary);
+}
+
+.sugo-hold {
+  background: rgba(154, 160, 166, 0.03);
+  border-left-color: var(--text-secondary);
+}
 
 /* Transaction section */
-.tx-section { margin-top: 0.35rem; }
-.tx-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin-bottom: 0.6rem; }
-.tx-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-.tx-title { font-size: 0.92rem; font-weight: 600; color: var(--text-secondary); }
+.tx-section {
+  margin-top: 0.35rem;
+}
+
+.tx-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin-bottom: 0.6rem;
+}
+
+.tx-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.tx-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
 .tx-add-form {
-  display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
   padding: 0.6rem 0.75rem;
   background: rgba(15, 17, 23, 0.5);
   border: 1px dashed var(--border);
   border-radius: var(--radius-sm);
   margin-bottom: 0.6rem;
 }
-.tx-status { text-align: center; padding: 0.6rem; font-size: 0.82rem; }
-.tx-list { display: flex; flex-direction: column; gap: 0.35rem; }
+
+.tx-status {
+  text-align: center;
+  padding: 0.6rem;
+  font-size: 0.82rem;
+}
+
+.tx-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
 .tx-row {
-  display: flex; align-items: center; gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.4rem 0.6rem;
   background: rgba(15, 17, 23, 0.3);
   border: 1px solid rgba(42, 46, 58, 0.2);
   border-radius: var(--radius-xs);
-  font-size: 0.85rem; flex-wrap: wrap;
+  font-size: 0.85rem;
+  flex-wrap: wrap;
   transition: border-color 0.2s, background 0.2s;
 }
-.tx-row:hover { border-color: rgba(42, 46, 58, 0.5); background: rgba(15, 17, 23, 0.5); }
-.tx-date { color: var(--text-secondary); min-width: 80px; font-size: 0.82rem; }
-.tx-type { font-weight: 600; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.75rem; }
-.txt-buy { background: var(--green-dim); color: var(--green); }
-.txt-add { background: var(--accent-dim); color: var(--accent); }
-.txt-reduce { background: var(--orange-dim); color: var(--orange); }
-.txt-sell { background: var(--red-dim); color: var(--red); }
-.tx-shares { min-width: 60px; text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
-.tx-price { color: var(--text-secondary); }
-.tx-fee { color: var(--text-secondary); }
-.tx-amount { font-weight: 600; min-width: 85px; text-align: right; font-variant-numeric: tabular-nums; }
-.tx-act { display: flex; gap: 0.2rem; margin-left: auto; }
+
+.tx-row:hover {
+  border-color: rgba(42, 46, 58, 0.5);
+  background: rgba(15, 17, 23, 0.5);
+}
+
+.tx-date {
+  color: var(--text-secondary);
+  min-width: 80px;
+  font-size: 0.82rem;
+}
+
+.tx-type {
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.txt-buy {
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+.txt-add {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.txt-reduce {
+  background: var(--orange-dim);
+  color: var(--orange);
+}
+
+.txt-sell {
+  background: var(--red-dim);
+  color: var(--red);
+}
+
+.tx-shares {
+  min-width: 60px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.tx-price {
+  color: var(--text-secondary);
+}
+
+.tx-fee {
+  color: var(--text-secondary);
+}
+
+.tx-amount {
+  font-weight: 600;
+  min-width: 85px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.tx-act {
+  display: flex;
+  gap: 0.2rem;
+  margin-left: auto;
+}
 
 /* Skeleton */
-.skeleton-card { padding: 2rem; display: flex; flex-direction: column; gap: 1rem; }
-.skeleton-line { height: 14px; border-radius: 8px; background: linear-gradient(90deg, rgba(42,46,58,0.4) 25%, rgba(35,39,56,0.6) 50%, rgba(42,46,58,0.4) 75%); background-size: 200% 100%; animation: shimmer 1.5s ease-in-out infinite; }
-.w-60 { width: 60%; }
-.w-80 { width: 80%; }
-.w-40 { width: 40%; }
-@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.skeleton-card {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skeleton-line {
+  height: 14px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(42, 46, 58, 0.4) 25%, rgba(35, 39, 56, 0.6) 50%, rgba(42, 46, 58, 0.4) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.w-80 {
+  width: 80%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
 
 /* Modal */
-.modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display: flex; align-items: flex-start; justify-content: center; padding: 1.5rem 1rem; overflow-y: auto; }
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  overflow-y: auto;
+}
+
 .modal-card {
-  width: 100%; max-width: 500px; margin-top: 1rem;
+  width: 100%;
+  max-width: 500px;
+  margin-top: 1rem;
   padding: 1.5rem;
   background: rgba(22, 26, 40, 0.95);
   backdrop-filter: blur(20px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  max-height: calc(100vh - 3rem); overflow-y: auto;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
   box-shadow: var(--shadow-lg);
 }
-.modal-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem; }
-.modal-hd h3 { font-size: 1.15rem; font-weight: 600; }
-.modal-bd { display: flex; flex-direction: column; gap: 0.75rem; }
-.modal-ft { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem; padding-top: 0.85rem; border-top: 1px solid var(--border); }
-.modal-desc { font-size: 0.9rem; color: var(--text-secondary); }
-.modal-title-area { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-.modal-title { font-size: 1.25rem; font-weight: 700; }
-.modal-actions { display: flex; gap: 0.4rem; align-items: center; }
-.modal-loading { text-align: center; padding: 3rem; }
-.loading-pulse { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
-.pulse-ring { width: 40px; height: 40px; border: 3px solid rgba(42,46,58,0.4); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; box-shadow: 0 0 20px rgba(79, 195, 247, 0.08); }
-.loading-text { color: var(--text-secondary); font-size: 0.9rem; }
+
+.modal-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.modal-hd h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.modal-bd {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.modal-ft {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+
+.modal-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.modal-title-area {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.modal-loading {
+  text-align: center;
+  padding: 3rem;
+}
+
+.loading-pulse {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pulse-ring {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(42, 46, 58, 0.4);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  box-shadow: 0 0 20px rgba(79, 195, 247, 0.08);
+}
+
+.loading-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
 
 /* Analysis modal needs wider max-width */
-.modal-card[style*="820px"] { max-width: 820px; }
+.modal-card[style*="820px"] {
+  max-width: 820px;
+}
 
 /* Dialog form */
-.dlg-form { display: flex; flex-direction: column; gap: 0.75rem; }
-.field { display: flex; flex-direction: column; gap: 0.25rem; position: relative; }
-.field label { font-size: 0.88rem; font-weight: 500; color: var(--text-secondary); }
-.field-hint { font-size: 0.75rem; color: var(--orange); }
-.form-input { width: 100%; padding: 0.55rem 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: rgba(15, 17, 23, 0.6); color: var(--text); font-size: 0.95rem; transition: border-color 0.2s, box-shadow 0.2s; }
-.form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.08); }
+.dlg-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  position: relative;
+}
+
+.field label {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.field-hint {
+  font-size: 0.75rem;
+  color: var(--orange);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(15, 17, 23, 0.6);
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.08);
+}
 
 /* Buttons */
-.btn-xs { padding: 0.3rem 0.6rem; font-size: 0.82rem; }
-.btn-sm { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
-.btn-primary { background: linear-gradient(135deg, var(--accent) 0%, #29b6f6 100%); color: #000; border: none; padding: 0.5rem 1rem; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.92rem; font-weight: 600; transition: all 0.2s; }
-.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-.btn-primary:not(:disabled):hover { box-shadow: 0 0 20px rgba(79, 195, 247, 0.2); }
-.btn-outline { background: transparent; border: 1px solid var(--border); }
-.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-.btn-danger { color: var(--red); }
-.btn-danger:hover { background: var(--red-dim); border-color: var(--red); }
-.btn-add { color: var(--green); border-color: rgba(52, 211, 153, 0.3); }
-.btn-add:hover { background: var(--green-dim); border-color: var(--green); }
-.btn-reduce { color: var(--orange); border-color: rgba(251, 191, 36, 0.3); }
-.btn-reduce:hover { background: var(--orange-dim); border-color: var(--orange); }
+.btn-xs {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.82rem;
+}
 
-.empty-state { text-align: center; padding: 3rem 1.5rem; }
+.btn-sm {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent) 0%, #29b6f6 100%);
+  color: #000;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-primary:not(:disabled):hover {
+  box-shadow: 0 0 20px rgba(79, 195, 247, 0.2);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-danger {
+  color: var(--red);
+}
+
+.btn-danger:hover {
+  background: var(--red-dim);
+  border-color: var(--red);
+}
+
+.btn-add {
+  color: var(--green);
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.btn-add:hover {
+  background: var(--green-dim);
+  border-color: var(--green);
+}
+
+.btn-reduce {
+  color: var(--orange);
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+.btn-reduce:hover {
+  background: var(--orange-dim);
+  border-color: var(--orange);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
 
 /* FI small input */
-.fi-xs { width: 80px; padding: 0.3rem 0.4rem; border: 1px solid var(--border); border-radius: var(--radius-xs); background: rgba(15, 17, 23, 0.6); color: var(--text); font-size: 0.82rem; transition: border-color 0.2s; }
-.fi-xs:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.06); }
+.fi-xs {
+  width: 120px;
+  padding: 0.3rem 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  background: rgba(15, 17, 23, 0.6);
+  color: var(--text);
+  font-size: 0.82rem;
+  transition: border-color 0.2s;
+}
+
+.fi-xs:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.06);
+}
 
 /* Toggle bar (analysis modal) */
-.toggle-bar { display: flex; background: rgba(15, 17, 23, 0.5); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 3px; }
-.toggle-btn { flex: 1; padding: 0.45rem 0; border: none; border-radius: 6px; background: transparent; color: var(--text-secondary); font-size: 0.85rem; cursor: pointer; transition: all 0.2s; font-weight: 500; }
-.toggle-btn.active { background: var(--accent-dim); color: var(--accent); font-weight: 600; }
+.toggle-bar {
+  display: flex;
+  background: rgba(15, 17, 23, 0.5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+}
 
-.card-inner { background: rgba(15, 17, 23, 0.4); border: 1px solid rgba(42, 46, 58, 0.3); border-radius: var(--radius-sm); padding: 0.8rem 0.9rem; }
-.card-advice { border-left: 3px solid var(--accent); }
-.card-info { border-left: 3px solid var(--accent-dim); }
-.card-buy { border-left: 3px solid var(--green); }
-.card-sell { border-left: 3px solid var(--red); }
-.card-warning { border-left: 3px solid var(--orange); }
-.sect-title { font-size: 0.92rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--text); }
-.sect-body { font-size: 0.92rem; line-height: 1.65; color: var(--text-secondary); white-space: pre-wrap; }
-.advice-text { color: var(--text); }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
-@media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-.summary-section { border-left: 3px solid var(--accent); padding-left: 0.75rem; }
-.summary-text { font-size: 1rem; line-height: 1.6; }
+.toggle-btn {
+  flex: 1;
+  padding: 0.45rem 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
 
-.action-bar { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; }
-.action-label { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; }
-.action-chip { display: inline-block; padding: 0.25rem 0.9rem; border-radius: 100px; font-size: 0.85rem; font-weight: 700; }
-.chip-hold { background: var(--accent-dim); color: var(--accent); }
-.chip-add { background: var(--green-dim); color: var(--green); }
-.chip-reduce { background: var(--orange-dim); color: var(--orange); }
-.chart-section { padding: 0; }
-.tag { font-size: 0.78rem; padding: 0.15rem 0.5rem; border-radius: 100px; font-weight: 500; }
-.tag-blue { background: var(--accent-dim); color: var(--accent); }
-.tag-yellow { background: rgba(251, 191, 36, 0.12); color: var(--orange); }
-.full-name { font-size: 0.85rem; color: var(--text-secondary); }
-.text-red { color: var(--red); }
-.btn-spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(42,46,58,0.4); border-top-color: var(--accent); border-radius: 50%; animation: spin .5s linear infinite; }
-.field-spinner { position: absolute; right: 0.6rem; top: 2.2rem; width: 14px; height: 14px; border: 2px solid rgba(42,46,58,0.4); border-top-color: var(--accent); border-radius: 50%; animation: spin .5s linear infinite; }
-.tx-label { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.82rem; color: var(--text-secondary); white-space: nowrap; }
+.toggle-btn.active {
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.card-inner {
+  background: rgba(15, 17, 23, 0.4);
+  border: 1px solid rgba(42, 46, 58, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 0.9rem;
+}
+
+.card-advice {
+  border-left: 3px solid var(--accent);
+}
+
+.card-info {
+  border-left: 3px solid var(--accent-dim);
+}
+
+.card-buy {
+  border-left: 3px solid var(--green);
+}
+
+.card-sell {
+  border-left: 3px solid var(--red);
+}
+
+.card-warning {
+  border-left: 3px solid var(--orange);
+}
+
+.sect-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--text);
+}
+
+.sect-body {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+}
+
+.advice-text {
+  color: var(--text);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+@media (max-width: 640px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.summary-section {
+  border-left: 3px solid var(--accent);
+  padding-left: 0.75rem;
+}
+
+.summary-text {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.action-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+}
+
+.action-label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.action-chip {
+  display: inline-block;
+  padding: 0.25rem 0.9rem;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.chip-hold {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.chip-add {
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+.chip-reduce {
+  background: var(--orange-dim);
+  color: var(--orange);
+}
+
+.chart-section {
+  padding: 0;
+}
+
+.tag {
+  font-size: 0.78rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 100px;
+  font-weight: 500;
+}
+
+.tag-blue {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.tag-yellow {
+  background: rgba(251, 191, 36, 0.12);
+  color: var(--orange);
+}
+
+.full-name {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.modal-holding { font-size: 0.82rem; color: var(--text-secondary); background: rgba(15, 17, 23, 0.4); padding: 0.15rem 0.55rem; border-radius: 100px; font-weight: 500; white-space: nowrap; }
+
+.text-red {
+  color: var(--red);
+}
+
+.btn-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(42, 46, 58, 0.4);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .5s linear infinite;
+}
+
+.field-spinner {
+  position: absolute;
+  right: 0.6rem;
+  top: 2.2rem;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(42, 46, 58, 0.4);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .5s linear infinite;
+}
+
+.tx-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
 </style>

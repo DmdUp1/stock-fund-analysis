@@ -12,6 +12,7 @@ from app.services.adapters import tencent_adapter, akshare_adapter
 from app.db.database import async_session_factory
 from app.db import crud
 from app.utils.logger import logger
+from app.utils.timezone import beijing_today
 
 router = APIRouter(prefix="/api/portfolio", tags=["portfolio"])
 
@@ -22,7 +23,7 @@ async def list_portfolio(_=Depends(verify_api_key)):
     async with async_session_factory() as session:
         items = await crud.get_portfolio(session)
 
-    today = datetime.date.today()
+    today = beijing_today()
     start = (today - datetime.timedelta(days=732)).isoformat()
     end = today.isoformat()
 

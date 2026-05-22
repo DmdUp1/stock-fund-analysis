@@ -148,23 +148,23 @@ async function openAnalysis(item: PortfolioItem) {
   modalItem.value = item
   showProfessional.value = false
 
+  // 优先从分析仓库加载最近记录
   try {
     const cached = await api.getWarehouseLatest(item.code, 'stock')
     if (cached && cached.detail_json) {
-      try {
-        const parsed = JSON.parse(cached.detail_json) as AnalysisResult
-        if (parsed && parsed.ai_report) {
-          modalAnalysis.value = parsed
-        }
-      } catch { /* ignore */ }
+      const parsed = JSON.parse(cached.detail_json) as AnalysisResult
+      if (parsed && parsed.ai_report) {
+        modalAnalysis.value = parsed
+      }
     }
   } catch { /* ignore */ }
 
+  // 仓库无记录则实时分析
   if (!modalAnalysis.value) {
     try {
       const result = await api.analyzeAsset(
         item.code, 'stock', item.name,
-        '', '', item.cost_price, item.shares,
+        '', '', item.cost_price, item.shares, item.holding_days,
       )
       modalAnalysis.value = result
     } catch (e: any) {
@@ -181,7 +181,7 @@ async function refreshAnalysis() {
   try {
     const result = await api.analyzeAsset(
       modalItem.value.code, 'stock', modalItem.value.name,
-      '', '', modalItem.value.cost_price, modalItem.value.shares,
+      '', '', modalItem.value.cost_price, modalItem.value.shares, modalItem.value.holding_days,
     )
     modalAnalysis.value = result
   } catch (e: any) {
@@ -422,6 +422,7 @@ onMounted(load)
             <span class="ps-label">累计盈亏</span>
             <span class="ps-value" :class="item.profit_loss >= 0 ? 'clr-up' : 'clr-down'">
               {{ item.profit_loss >= 0 ? '+' : '' }}{{ pct(item.profit_loss_pct) }}%
+              <span class="ps-amount">({{ item.profit_loss >= 0 ? '+' : '' }}¥{{ money(item.profit_loss) }})</span>
             </span>
           </div>
           <div class="ps-item">
@@ -567,6 +568,7 @@ onMounted(load)
               <h2 class="modal-title">{{ modalItem?.code }}</h2>
               <span class="tag tag-blue">股票</span>
               <span class="full-name">{{ modalItem?.name }}</span>
+              <span v-if="modalItem" class="modal-holding">持有 {{ modalItem.holding_days }}天</span>
             </div>
             <div class="modal-actions">
               <button v-if="modalAnalysis" class="btn btn-sm btn-outline" :disabled="freshLoading" @click="refreshAnalysis">
@@ -721,6 +723,7 @@ onMounted(load)
 }
 .ps-label { display: block; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.2rem; text-transform: uppercase; letter-spacing: 0.4px; }
 .ps-value { font-size: 1.08rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ps-amount { font-size: 0.78rem; font-weight: 500; opacity: 0.8; display: inline-block; margin-left: 0.15rem; }
 
 /* Action buttons */
 .pos-actions { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
@@ -880,6 +883,7 @@ onMounted(load)
 .tag { font-size: 0.78rem; padding: 0.15rem 0.5rem; border-radius: 100px; font-weight: 500; }
 .tag-blue { background: var(--accent-dim); color: var(--accent); }
 .full-name { font-size: 0.85rem; color: var(--text-secondary); }
+.modal-holding { font-size: 0.82rem; color: var(--text-secondary); background: rgba(15, 17, 23, 0.4); padding: 0.15rem 0.55rem; border-radius: 100px; font-weight: 500; white-space: nowrap; }
 .text-red { color: var(--red); }
 .btn-spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(42,46,58,0.4); border-top-color: var(--accent); border-radius: 50%; animation: spin .5s linear infinite; }
 .field-spinner { position: absolute; right: 0.6rem; top: 2.2rem; width: 14px; height: 14px; border: 2px solid rgba(42,46,58,0.4); border-top-color: var(--accent); border-radius: 50%; animation: spin .5s linear infinite; }

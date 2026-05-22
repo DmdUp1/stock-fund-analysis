@@ -115,28 +115,58 @@ onMounted(load)
 </template>
 
 <style scoped>
-.page { max-width: 960px; margin: 0 auto; padding: 1.5rem 1.25rem; min-height: 100vh; }
+.page { max-width: 1040px; margin: 0 auto; padding: 1.5rem 1.25rem; min-height: 100vh; }
 .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem; }
-.page-title { font-size: 1.6rem; font-weight: 700; }
+.page-title { font-size: 1.7rem; font-weight: 700; background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-.filter-group { display: flex; gap: 0.25rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 3px; }
-.filter-btn { padding: 0.4rem 0.9rem; border: none; border-radius: 6px; background: transparent; color: var(--text-secondary); cursor: pointer; font-size: 0.88rem; transition: all 0.15s; }
+.filter-group { display: flex; gap: 0.25rem; background: rgba(15, 17, 23, 0.5); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 3px; }
+.filter-btn { padding: 0.5rem 1.1rem; border: none; border-radius: 6px; background: transparent; color: var(--text-secondary); cursor: pointer; font-size: 0.92rem; transition: all 0.15s; }
 .filter-btn.active { background: var(--accent-dim); color: var(--accent); font-weight: 600; }
 .filter-btn:hover:not(.active) { color: var(--text); }
 
-.group-list { display: flex; flex-direction: column; gap: 0.75rem; }
-.group-card { padding: 1.15rem 1.35rem; cursor: pointer; transition: all 0.15s; }
+.group-list { display: flex; flex-direction: column; gap: 0.85rem; }
+
+.group-card {
+  padding: 1.35rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: linear-gradient(135deg, rgba(22, 26, 40, 0.9), rgba(26, 30, 48, 0.8));
+  position: relative;
+  overflow: hidden;
+}
+.group-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(79, 195, 247, 0.15), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.group-card:hover::before { opacity: 1; }
 .group-card:hover { border-color: var(--accent); }
-.group-top { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
-.group-code { font-weight: 700; font-size: 1.05rem; font-variant-numeric: tabular-nums; flex-shrink: 0; }
-.group-name { font-size: 0.88rem; color: var(--text-secondary); }
-.group-count { font-size: 0.8rem; color: var(--text-secondary); }
-.group-time { font-size: 0.8rem; color: var(--text-secondary); margin-left: auto; white-space: nowrap; }
-.group-summary { font-size: 0.88rem; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 0.3rem; }
-.group-portfolio-info { display: flex; gap: 0.85rem; flex-wrap: wrap; margin-top: 0.4rem; font-size: 0.82rem; }
+
+.group-top { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+.group-code { font-weight: 700; font-size: 1.15rem; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+.group-name { font-size: 0.92rem; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 200px; }
+.group-count { font-size: 0.85rem; color: var(--text-secondary); margin-left: 0.25rem; }
+.group-time { font-size: 0.85rem; color: var(--text-secondary); margin-left: auto; white-space: nowrap; }
+.group-summary {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 0.4rem;
+  line-height: 1.5;
+}
+.group-portfolio-info {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(15, 17, 23, 0.3);
+  border-radius: var(--radius-xs);
+  font-size: 0.88rem;
+}
 .pi-item { font-variant-numeric: tabular-nums; }
-
-
 
 .text-center { text-align: center; }
 .text-sm { font-size: 0.88rem; }
@@ -144,7 +174,7 @@ onMounted(load)
 .text-secondary { color: var(--text-secondary); }
 .empty-state { text-align: center; padding: 3.5rem 2rem; }
 
-.tag { font-size: 0.78rem; padding: 0.2rem 0.55rem; border-radius: 100px; font-weight: 500; }
+.tag { font-size: 0.82rem; padding: 0.2rem 0.6rem; border-radius: 100px; font-weight: 500; }
 .tag-blue { background: rgba(79, 195, 247, 0.12); color: var(--accent); }
 .tag-yellow { background: rgba(251, 191, 36, 0.12); color: var(--orange); }
 </style>

@@ -10,11 +10,12 @@ from app.db import crud
 from app.db.database import async_session_factory
 from app.models.schemas import PortfolioItem, AssetPortfolioSummary, PortfolioSummary, AnalysisRecord
 from app.services.analysis_utils import parse_suggestion
+from app.utils.timezone import beijing_today
 
 
 def _calc_holding_days(txs: list) -> int:
     """基于 FIFO 计算持仓中最早一笔买入距今的天数"""
-    today = datetime.date.today()
+    today = beijing_today()
     # 按交易日期升序排列
     sorted_txs = sorted(txs, key=lambda t: t.tx_date)
     # FIFO 队列: list of (date_str, shares)
@@ -126,7 +127,7 @@ async def get_portfolio_summary(
                 detail_str = result.scalar_one_or_none()
                 suggestion_cache[item.code] = _parse_ai_suggestion(detail_str, item.shares, item.asset_type)
 
-    today = datetime.date.today()
+    today = beijing_today()
     stock_items: list[PortfolioItem] = []
     fund_items: list[PortfolioItem] = []
 

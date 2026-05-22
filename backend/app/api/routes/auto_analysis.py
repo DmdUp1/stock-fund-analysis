@@ -8,6 +8,7 @@ from app.api.deps import verify_api_key
 from app.models.schemas import AutoTaskStatus, BackupInfo
 from app.db import crud
 from app.db.database import async_session_factory
+from app.utils.timezone import beijing_now
 
 router = APIRouter(prefix="/api/auto", tags=["auto"])
 
@@ -24,7 +25,7 @@ async def get_auto_status(_=Depends(verify_api_key)):
     last_backup = backups[0].created_at.isoformat() if backups else None
 
     # 下次运行时间（默认为当日设定时间，若已过则次日）
-    now = datetime.datetime.now()
+    now = beijing_now()
     next_run = now.replace(
         hour=8, minute=0, second=0, microsecond=0,
     )

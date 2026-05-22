@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.schemas import StockCache, Portfolio, Transaction, AnalysisRecord, BackupRecord
 from app.services.analysis_utils import parse_suggestion
+from app.utils.timezone import beijing_now
 
 
 # ── StockCache ───────────────────────────────────────────
@@ -16,7 +17,7 @@ async def get_cache(session: AsyncSession, cache_key: str) -> Optional[StockCach
     result = await session.execute(
         select(StockCache).where(
             StockCache.cache_key == cache_key,
-            StockCache.expires_at > datetime.datetime.utcnow(),
+            StockCache.expires_at > beijing_now(),
         )
     )
     return result.scalar_one_or_none()
@@ -27,7 +28,7 @@ async def set_cache(session: AsyncSession, cache_key: str, data_json: str, ttl_s
     entry = StockCache(
         cache_key=cache_key,
         data_json=data_json,
-        expires_at=datetime.datetime.utcnow() + datetime.timedelta(seconds=ttl_seconds),
+        expires_at=beijing_now() + datetime.timedelta(seconds=ttl_seconds),
     )
     session.add(entry)
     await session.commit()

@@ -7,6 +7,7 @@ from sqlalchemy import Integer, String, Text, DateTime, Float, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.database import Base
+from app.utils.timezone import beijing_now
 
 
 # ── ORM 模型 ─────────────────────────────────────────────
@@ -17,7 +18,7 @@ class StockCache(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     cache_key: Mapped[str] = mapped_column(String(128), unique=True, index=True)
     data_json: Mapped[str] = mapped_column(Text)
-    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=datetime.datetime.utcnow)
+    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=beijing_now)
     expires_at: Mapped[datetime.datetime] = mapped_column(DateTime)
 
 
@@ -31,7 +32,7 @@ class Portfolio(Base):
     shares: Mapped[float] = mapped_column(Float, default=0)
     cost_price: Mapped[float] = mapped_column(Float, default=0.0)
     total_fees: Mapped[float] = mapped_column(Float, default=0.0)
-    added_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=datetime.datetime.utcnow)
+    added_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=beijing_now)
 
 
 class Transaction(Base):
@@ -48,7 +49,7 @@ class Transaction(Base):
     amount: Mapped[float] = mapped_column(Float, default=0.0)
     fee: Mapped[float] = mapped_column(Float, default=0.0)
     tx_date: Mapped[str] = mapped_column(String(16))
-    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=datetime.datetime.utcnow)
+    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=beijing_now)
 
 
 class AnalysisRecord(Base):
@@ -59,7 +60,7 @@ class AnalysisRecord(Base):
     asset_type: Mapped[str] = mapped_column(String(8), default="stock")
     summary: Mapped[str] = mapped_column(Text)
     detail_json: Mapped[str] = mapped_column(Text)
-    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=datetime.datetime.utcnow)
+    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=beijing_now)
 
 
 class BackupRecord(Base):
@@ -68,7 +69,7 @@ class BackupRecord(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     file_path: Mapped[str] = mapped_column(String(512))
     file_size_bytes: Mapped[int] = mapped_column(Integer, default=0)
-    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=datetime.datetime.utcnow)
+    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=beijing_now)
 
 
 # ── Pydantic Schema ──────────────────────────────────────
